@@ -47,4 +47,13 @@ spotless {
 	}
 }
 
+tasks.named("build") {
+	dependsOn("spotlessJavaApply")
+}
+
+//tasks.named("spotlessJavaCheck").configure {
+//	enabled = false
+//}
+
+
 

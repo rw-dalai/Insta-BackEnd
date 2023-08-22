@@ -101,6 +101,7 @@ public class TodoController {
   // HTTP Status: 200
   // Body: { "id": "123", "title": "make the homework", "completed": false }
 
+  // curl -v localhost:8080/api/todo/64e3b0661ae5f561688485c2
   @GetMapping("/{id}")
   public Todo findTodo(@PathVariable("id") String todoId) {
     return todoService.findTodo(todoId);
@@ -114,10 +115,11 @@ public class TodoController {
   // HTTP Status: 201
   // Body: { "id": "123", "title": "make the homework", "completed": false }
 
-  // public Todo createTodo(@RequestBody Todo todo)
-
+  // curl -X POST http://localhost:8080/todos -H "Content-Type: application/json" -d '{"title": "New
+  // Todo", "completed": false}'
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
+  // public Todo createTodo(@RequestBody Todo todo)
   public Todo createTodo(@RequestBody CreateTodoCommand command) {
     return todoService.createTodo(command);
   }

@@ -115,8 +115,9 @@ public class TodoController {
   // HTTP Status: 201
   // Body: { "id": "123", "title": "make the homework", "completed": false }
 
-  // curl -X POST http://localhost:8080/todos -H "Content-Type: application/json" -d '{"title":
-  // "NewTodo", "completed": false}'
+  // curl -X POST http://localhost:8080/todos
+  // -H "Content-Type: application/json"
+  // -d '{"title": "NewTodo", "completed": false}'
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   // public Todo createTodo(@RequestBody Todo todo)

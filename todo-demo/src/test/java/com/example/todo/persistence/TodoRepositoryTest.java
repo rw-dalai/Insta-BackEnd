@@ -9,12 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
-// @NoArgsConstructor
 // @AllArgsConstructor
-
-@DataMongoTest
 // @RequiredArgsConstructor
+// @NoArgsConstructor
+
+// @DataJpaTest
+@DataMongoTest
 class TodoRepositoryTest {
+
+  // Setter Injection (DI Mechanisms)
   @Autowired private TodoRepository todoRepository;
 
   /*

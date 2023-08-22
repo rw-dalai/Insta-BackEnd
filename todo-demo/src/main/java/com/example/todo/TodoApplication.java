@@ -6,10 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
+// @SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class TodoApplication {
 
   // https://www.slf4j.org/manual.html
@@ -21,7 +22,7 @@ public class TodoApplication {
   }
 
   // Gets executed when the spring container is fully initialised
-  @Bean
+  // @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
       // System.out.println("Hello Spring 1");

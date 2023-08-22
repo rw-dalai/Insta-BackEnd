@@ -42,7 +42,8 @@ spotless {
 	}
 }
 
-tasks.named("build") {
+// Always run spotlessApply before spotlessCheck
+tasks.named("check") {
 	dependsOn("spotlessJavaApply")
 }
 

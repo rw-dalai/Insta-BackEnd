@@ -35,6 +35,11 @@ dependencies {
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+
+	// https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+	testImplementation("io.rest-assured:rest-assured:5.3.1")
+
+
 }
 
 tasks.withType<Test> {
@@ -47,7 +52,8 @@ spotless {
 	}
 }
 
-tasks.named("build") {
+// Always run spotlessApply before spotlessCheck
+tasks.named("check") {
 	dependsOn("spotlessJavaApply")
 }
 

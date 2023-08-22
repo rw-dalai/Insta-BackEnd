@@ -1,8 +1,21 @@
 package com.example.todo.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+
+// Anaemic Domain Model
+// ---------------------
+// Its a class with getters and setters and no business logic
+// Our Todo class is an example of an Anaemic Domain Model
+
+// VS
+
+// Rich Domain Model
+// -----------------
+// Its a class with getters and setters and business logic
 
 // @NoArgsConstructor
 // @Getter
@@ -11,11 +24,17 @@ import org.springframework.data.annotation.Id;
 // @EqualsAndHashCode
 @Data
 public class Todo {
-  @Id private ObjectId id;
+  // JsonSerialize is needed to convert ObjectId to String
+  @JsonSerialize(using = ToStringSerializer.class)
+  @Id
+  private ObjectId id;
 
   private String title;
 
   private boolean completed;
+
+  // In MongoDB, we can have nested objects
+  // private Address address;
 
   // For Spring Data
   public Todo() {}

@@ -49,6 +49,7 @@ tasks.withType<Test> {
 spotless {
 	java {
 		googleJavaFormat()
+		toggleOffOn()
 	}
 }
 

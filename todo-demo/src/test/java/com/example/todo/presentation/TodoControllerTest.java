@@ -48,7 +48,10 @@ public class TodoControllerTest {
     // spotless:off
     // Given // When
     Response response =
-        when().get("/api/todo/{id}", todoFixture.getId().toString()).then().extract().response();
+        when()
+          .get("/api/todo/{id}", todoFixture.getId().toString())
+        .then()
+          .extract().response();
     // spotless:on
 
     // Then

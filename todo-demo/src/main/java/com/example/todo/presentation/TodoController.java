@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 //   Encapsulates HTTP Request and Response
 //   Authentication
 //   Authorization
-//   Get Data from Request
-//   Returns view or JSON
+//   Get Command Object (DTO)
+//   Returns View (DTO)
 
 // Service Layer
 // -------------
@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 //   Logging
 //   Exception Translation
 //   Service Exceptions
+//   Get Command Object (DTO)
+//   Returns View (DTO)
 
 // Repository Layer
 // ----------------

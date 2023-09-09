@@ -29,4 +29,10 @@ public class TodoValidationService {
         .orElseThrow(
             () -> new IllegalArgumentException("Todo with id " + todoId + " does not exist"));
   }
+
+  // Should throw Service Exception
+  public void checkTodoById(String todoId) {
+    if (!todoRepository.existsById(new ObjectId(todoId)))
+      throw new IllegalArgumentException("Todo with id " + todoId + " does not exist");
+  }
 }

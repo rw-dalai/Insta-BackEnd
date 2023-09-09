@@ -4,4 +4,4 @@ package com.example.todo.presentation.commands;
 // records are immutable (cannot be changed)
 // getter, hashcode, equals, toString
 // structural equality
-public record CreateTodoCommand(String title, boolean completed) {}
+public record TodoCommand(String title, boolean completed) {}

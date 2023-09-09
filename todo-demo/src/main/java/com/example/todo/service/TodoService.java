@@ -28,8 +28,10 @@ package com.example.todo.service;
 
 import com.example.todo.domain.Todo;
 import com.example.todo.persistence.TodoRepository;
-import com.example.todo.presentation.commands.CreateTodoCommand;
+import com.example.todo.presentation.commands.TodoCommand;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -50,25 +52,54 @@ public class TodoService {
   //        this.todoRepository = todoRepository;
   //    }
 
+  public List<Todo> findAllTodos() {
+    LOGGER.info("Find todos");
+
+    return todoRepository.findAll();
+  }
+
   public Todo findTodo(String todoId) {
     LOGGER.info("Find todo with id {}", todoId);
 
     Todo todo = todoValidationService.getTodoById(todoId);
 
     LOGGER.info("Successfully found todo with id {}", todoId);
-
     return todo;
   }
 
-  public Todo createTodo(CreateTodoCommand command) {
-    LOGGER.info("Create new todo with {}", command);
+  public Todo createTodo(TodoCommand command) {
+    LOGGER.info("Create new todo with command {}", command);
 
-    // command -> domain
+    // Convert command into domain object
     Todo todo = new Todo(command.title(), command.completed());
     todoRepository.save(todo);
 
     LOGGER.info("Successfully created new todo");
 
     return todo;
+  }
+
+  public Todo updateTodo(String todoId, TodoCommand command) {
+    LOGGER.info("Update todo with id {} and command {}", todoId, command);
+
+    Todo todo = todoValidationService.getTodoById(todoId);
+
+    todo.setTitle(command.title());
+    todo.setCompleted(command.completed());
+
+    todoRepository.save(todo);
+    LOGGER.info("Successfully updated todo");
+
+    return todo;
+  }
+
+  public void deleteTodo(String todoId) {
+    LOGGER.info("Delete todo with id {}", todoId);
+
+    // Check the existence before we delete the entity otherwise the delete would silent ignore it
+    todoValidationService.checkTodoById(todoId);
+    todoRepository.deleteById(new ObjectId(todoId));
+
+    LOGGER.info("Successfully updated todo");
   }
 }

@@ -1,8 +1,9 @@
 package com.example.todo.presentation;
 
 import com.example.todo.domain.Todo;
-import com.example.todo.presentation.commands.CreateTodoCommand;
+import com.example.todo.presentation.commands.TodoCommand;
 import com.example.todo.service.TodoService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -89,11 +90,28 @@ import org.springframework.web.bind.annotation.*;
 // Classic DTO, transfers data from one layer to another
 // Command, necessary data in order to execute a business use case
 
+// What Status Code to return ? :-)
+// https://camo.githubusercontent.com/c26df6d372790e9f24d7e16d2cfa16a142985109b237bbc0f482c47a717019fe/68747470733a2f2f7261776769746875622e636f6d2f666f722d4745542f687474702d6465636973696f6e2d6469616772616d2f6d61737465722f6874747064642e66736d2e706e67
+
 @RestController
 @RequestMapping("/api/todo")
 @RequiredArgsConstructor
 public class TodoController {
   private final TodoService todoService;
+
+  // HTTP Request
+  // GET /api/todo
+  // Body: none
+
+  // HTTP Response
+  // HTTP Status: 200
+  // Body: [{ ... }, { ... }]
+
+  // curl http://localhost:8080/api/todo
+  @GetMapping
+  public List<Todo> findAllTodo() {
+    return this.todoService.findAllTodos();
+  }
 
   // HTTP Request
   // GET /api/todo/123
@@ -103,27 +121,58 @@ public class TodoController {
   // HTTP Status: 200
   // Body: { "id": "123", "title": "make the homework", "completed": false }
 
-  // curl -v localhost:8080/api/todo/64e3b0661ae5f561688485c2
+  // curl -v localhost:8080/api/todo/123
   @GetMapping("/{id}")
   public Todo findTodo(@PathVariable("id") String todoId) {
     return todoService.findTodo(todoId);
   }
 
   // HTTP Request
-  // POSt /api/todo
+  // POST /api/todo
   // Body: { "title": "make the homework", "completed": false }
 
   // HTTP Response
   // HTTP Status: 201
   // Body: { "id": "123", "title": "make the homework", "completed": false }
 
-  // curl -X POST http://localhost:8080/todos
+  // curl -X POST http://localhost:8080/api/todo
   // -H "Content-Type: application/json"
-  // -d '{"title": "NewTodo", "completed": false}'
+  // -d '{"title": "make the kitchen", "completed": false}'
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   // public Todo createTodo(@RequestBody Todo todo)
-  public Todo createTodo(@RequestBody CreateTodoCommand command) {
+  public Todo createTodo(@RequestBody TodoCommand command) {
     return todoService.createTodo(command);
+  }
+
+  // HTTP Request
+  // PUT /api/todo/123
+  // Body: { "title": "make the kitchen", "completed": true }
+
+  // HTTP Response
+  // HTTP Status: 200
+  // Body: { "id": "123", "title": "make the kitchen", "completed": true }
+
+  // curl -X PUT http://localhost:8080/api/todo/123
+  // -H "Content-Type: application/json"
+  // -d '{"title": "make the kitchen", "completed": true}'
+  @PutMapping("/{id}")
+  public Todo updateTodo(@PathVariable String id, @RequestBody TodoCommand command) {
+    return todoService.updateTodo(id, command);
+  }
+
+  // HTTP Request
+  // PUT /api/todo/123
+  // Body: None
+
+  // HTTP Response
+  // HTTP Status: 204
+  // Body: None
+
+  // curl -X DELETE http://localhost:8080/api/todo/123
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void updateTodo(@PathVariable String id) {
+    todoService.deleteTodo(id);
   }
 }

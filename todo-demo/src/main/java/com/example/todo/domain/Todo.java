@@ -36,10 +36,10 @@ public class Todo {
   // In MongoDB, we can have nested objects
   // private Address address;
 
-  // For Spring Data
-  public Todo() {}
+  // For Spring Data, thus make it `protected`
+  protected Todo() {}
 
-  // For us
+  // For us, thus make it `public`
   public Todo(String title, boolean completed) {
     this.title = title;
     this.completed = completed;

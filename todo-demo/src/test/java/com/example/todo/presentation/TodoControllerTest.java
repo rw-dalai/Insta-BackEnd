@@ -112,10 +112,7 @@ public class TodoControllerTest {
     // spotless:off
     // Given // When
     Response response =
-        given()
-            .contentType("application/json")
-            .body(commandFixture)
-          .when()
+          when()
             .delete("/api/todo/" + todoFixture.getId().toString())
             .then()
             .extract().response();

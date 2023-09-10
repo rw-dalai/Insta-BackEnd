@@ -71,11 +71,13 @@ public class TodoService {
     LOGGER.info("Create new todo with command {}", command);
 
     // Convert command into domain object
+    // has no id at this point in time
     Todo todo = new Todo(command.title(), command.completed());
     todoRepository.save(todo);
 
     LOGGER.info("Successfully created new todo");
 
+    // includes the id now, befause of Spring Data
     return todo;
   }
 
@@ -95,6 +97,9 @@ public class TodoService {
 
   public void deleteTodo(String todoId) {
     LOGGER.info("Delete todo with id {}", todoId);
+
+    // boolean exsists = todoRepository.existsById(new ObjectId(todoId));
+    // Optional<Todo> todo = todoRepository.findById(new ObjectId(todoId));
 
     // Check the existence before we delete the entity otherwise the delete would silent ignore it
     todoValidationService.checkTodoById(todoId);

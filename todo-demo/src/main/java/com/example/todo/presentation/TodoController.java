@@ -172,7 +172,7 @@ public class TodoController {
   // curl -X DELETE http://localhost:8080/api/todo/123
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void updateTodo(@PathVariable String id) {
+  public void deleteTodo(@PathVariable String id) {
     todoService.deleteTodo(id);
   }
 }

@@ -3,48 +3,34 @@ package com.example.insta.domain;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 
 // Base class for all domain entities (that are persisted to the database)
+// Lombok generates getters for all fields
+// https://projectlombok.org/
+@Getter
 public abstract class BaseEntity<PK extends Serializable> {
   @Id protected final PK id;
 
-  // Automatically set the createdAt field when the entity is created.
+  // Spring Data automatically sets the createdAt field when the entity is created in DB.
   // Needs @EnableMongoAuditing in MongoConfig
   @CreatedDate private Instant createdAt;
 
-  // Automatically set the lastModifiedAt field when the entity is updated.
+  // Spring Data automatically updates the lastModifiedAt field when the entity is updated in DB.
   // Needs @EnableMongoAuditing in MongoConfig
   @LastModifiedDate private Instant lastModifiedAt;
 
-  // Automatically set the version field when the entity is updated.
-  // For optimistic locking.
+  // Spring Data automatically set the version field when the entity is updated in DB.
   // https://stackoverflow.com/questions/129329/optimistic-vs-pessimistic-locking
   @Version private Long version;
 
   // ctor -----------------------------------------------------------------
   protected BaseEntity(PK id) {
     this.id = id;
-  }
-
-  // getters --------------------------------------------------------------
-  public PK getId() {
-    return id;
-  }
-
-  public Instant getCreatedAt() {
-    return createdAt;
-  }
-
-  public Instant getLastModifiedAt() {
-    return lastModifiedAt;
-  }
-
-  public Long getVersion() {
-    return version;
   }
 
   // hash/equals ----------------------------------------------------------
@@ -54,7 +40,7 @@ public abstract class BaseEntity<PK extends Serializable> {
 
     if (o == null || getClass() != o.getClass()) return false;
 
-    BaseEntity that = (BaseEntity) o;
+    BaseEntity<?> that = (BaseEntity<?>) o;
 
     return Objects.equals(id, that.id);
   }

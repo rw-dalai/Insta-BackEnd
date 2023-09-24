@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 public class User extends BaseEntity<String> {
   // Indexes speed up queries in MongoDB by providing efficient access to data.
+  // https://stackoverflow.com/questions/1108/how-does-database-indexing-work
   @Indexed(unique = true)
   private String email;
 

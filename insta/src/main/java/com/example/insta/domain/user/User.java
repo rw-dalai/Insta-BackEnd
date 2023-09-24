@@ -21,12 +21,12 @@ public class User extends BaseEntity<String> {
 
   // ctor --------------------------------------------
 
-  // Constructor for Spring Data to use when creating a new user
+  // Constructor for Spring Data to use when creating a new user from DB into memory.
   protected User(String id) {
     super(id);
   }
 
-  // Constructor for us to use when creating a new user
+  // Constructor for us developers to use when creating a new user in memory.
   public User(String email, String password, Role role, Profile profile) {
     super(generateUUIDv4());
 

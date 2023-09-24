@@ -16,12 +16,12 @@ public class User extends BaseEntity<String> {
   private Role role;
 
   // Profile will be embedded in User in MongoDB
-  // Therefore the Domain Model and the MongoDB Model are the same (perfect match)
+  // Therefore the _Domain Model_ and the _MongoDB Model_ are the same (perfect match)
   private Profile profile;
 
   // ctor --------------------------------------------
 
-  // Constructor for Spring Data/Jackson to use when creating a new user
+  // Constructor for Spring Data to use when creating a new user
   protected User(String id) {
     super(id);
   }

@@ -15,8 +15,8 @@ public class User extends BaseEntity<String> {
   // What is the user allowed to do
   private Role role;
 
-  // Profile will be embedded in User in MongoDB
-  // Therefore the _Domain Model_ and the _MongoDB Model_ are the same (perfect match)
+  // Profile will be embedded in User in MongoDB.
+  // The _Domain Model_ (instance in memory) and the _MongoDB Model_ (document in DB) are the same.
   private Profile profile;
 
   // ctor --------------------------------------------

@@ -45,7 +45,7 @@ public class MongoDemoApplication3 {
 // Domain Model
 
 // - Question: Do I really need a list of todos in the User class?
-// - Question2: My list is growing and growing. Is this a problem?
+// - Question2: My list is growing and growing and I want to control the list/elements in some way?
 //   If the answer is both yes, this approach is for you.
 
 record User3(@Id String id, @DBRef(lazy = true) List<Todo> todos) {}

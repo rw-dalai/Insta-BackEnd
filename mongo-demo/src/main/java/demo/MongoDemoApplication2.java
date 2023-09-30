@@ -34,8 +34,8 @@ public class MongoDemoApplication2 {
 
 // Domain Model
 
-// - Question: Do I really need a list of todos in the User class?
-// - Question2: My list is small and bounded and the data is part of the User.
+// - Question: Do I really need a list of address in the User class?
+// - Question2: My list is small and bounded and the data is part of the User (it belongs together)?
 //   If the answer is yes, this approach is for you.
 
 record User2(@Id String id, List<Address2> address) {}

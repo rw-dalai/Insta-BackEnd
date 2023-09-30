@@ -45,7 +45,7 @@ public class MongoDemoApplication4 {
 // Domain Model
 
 // - Question: Do I really need a list of todos in the User class?
-//   If the answer is no, this approach is for you.
+//   If the answer is both no, this approach is for you.
 
 record User4(@Id String id) {}
 

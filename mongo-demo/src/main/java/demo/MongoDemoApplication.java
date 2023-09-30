@@ -2,11 +2,10 @@ package demo;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-@SpringBootApplication
+// @SpringBootApplication
 public class MongoDemoApplication {
   public static void main(String[] args) {
     SpringApplication.run(MongoDemoApplication.class, args);

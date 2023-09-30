@@ -3,11 +3,10 @@ package demo;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-@SpringBootApplication
+// @SpringBootApplication
 public class MongoDemoApplication4 {
   public static void main(String[] args) {
     SpringApplication.run(MongoDemoApplication4.class, args);
@@ -27,11 +26,11 @@ public class MongoDemoApplication4 {
       userRepository.save(user);
 
       var userBack = userRepository.findById("u1").get();
+      System.out.println(userBack);
 
       // We have to manually query for the todos !
       var todosBack = todoRepository.findByUserId(userBack.id());
-
-      System.out.println(userBack);
+      System.out.println(todosBack);
     };
   }
 }
@@ -42,12 +41,12 @@ public class MongoDemoApplication4 {
 
 // No mismatch between Domain Model and Mongo Model
 
+// - Question: I am not solving any problem with the list in the Class?
+// - Question2: I do not need any control over the size/items in the Class?
+// - Hint: I am modelling the relationship between two aggregates?
+// - If the answer yes to all, this approach might be for you.
+
 // Domain Model
-
-// - Question: Do I really need a list of todos in the User class?
-// - Question2: I not need any control over the todos of a user?
-//   If the answer is both no, this approach is for you.
-
 record User4(@Id String id) {}
 
 record Todo4(@Id String id, String userId, String name) {}
@@ -64,16 +63,5 @@ interface TodoRepository4 extends MongoRepository<Todo4, String> {
 // - Simplicity:
 //   Direct references are simpler to implement and manage.
 
-//  - Control Over Related Entity Retrieval:
-//    Explicitly querying related entities provides granular control over data retrieval and
-//    may be useful to circumvent unnecessary data fetch operations.
-
-//  - Performance Considerations:
-//    Direct references might be preferable when optimal read performance is a priority.
-//    Directly querying the related entities using the user ID often involves fewer resources than
-// resolving DBRefs.
-
-//  - Absence of Cascading Operations:
-//    When there is no necessity to cascade operations (like delete) or
-//    manage complex lifecycle synchronizations between entities,
-//    direct references are often simpler and more manageable.
+// - Control Over Related Entity Retrieval:
+//   Explicitly querying related entities provides control over data retrieval and performance.

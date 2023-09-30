@@ -3,11 +3,10 @@ package demo;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-@SpringBootApplication
+// @SpringBootApplication
 public class MongoDemoApplication2 {
   public static void main(String[] args) {
     SpringApplication.run(MongoDemoApplication2.class, args);
@@ -32,12 +31,11 @@ public class MongoDemoApplication2 {
 
 // No mismatch between Domain Model and Mongo Model
 
+// - Question: My list is small and bounded and the data is part of the Class
+//   (belongs together, e.g. list of value objects)?
+// - If the answer is yes, this approach might be for you.
+
 // Domain Model
-
-// - Question: Do I really need a list of address in the User class?
-// - Question2: My list is small and bounded and the data is part of the User (it belongs together)?
-//   If the answer is yes, this approach is for you.
-
 record User2(@Id String id, List<Address2> address) {}
 
 record Address2(String street, String city) {}

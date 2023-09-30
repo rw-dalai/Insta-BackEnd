@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -14,11 +15,11 @@ public class MongoDemoApplication3 {
     SpringApplication.run(MongoDemoApplication3.class, args);
   }
 
-  //    @Bean
-  public CommandLineRunner run3(UserRepository3 userRepository, TodoRepository todoRepository) {
+  @Bean
+  public CommandLineRunner run3(UserRepository3 userRepository, TodoRepository3 todoRepository) {
     return args -> {
-      var todo1 = new Todo("t1", "Java");
-      var todo2 = new Todo("t2", "C#");
+      var todo1 = new Todo3("t1", "Java");
+      var todo2 = new Todo3("t2", "C#");
       var user = new User3("u1", List.of(todo1, todo2));
 
       userRepository.deleteAll();
@@ -42,22 +43,21 @@ public class MongoDemoApplication3 {
 // Mismatch between Domain Model and Mongo Model.
 // The mismatch is resolved by Spring Data MongoDB.
 
+// - Question: What is the problem I am trying to solve with the list in the Class?
+// - Question2: Do I need to have tight control over size/items in the Class?
+// - If the answer is yes, this approach might be for you.
+
 // Domain Model
+record User3(@Id String id, @DBRef(lazy = true) List<Todo3> todos) {}
 
-// - Question: Do I really need a list of todos in the User class?
-// - Question2: My list is growing and growing and I want to control the list/elements in some way?
-//   If the answer is both yes, this approach is for you.
-
-record User3(@Id String id, @DBRef(lazy = true) List<Todo> todos) {}
-
-record Todo(@Id String id, String name) {}
+record Todo3(@Id String id, String name) {}
 
 // Repository
 interface UserRepository3 extends MongoRepository<User3, String> {}
 
-interface TodoRepository extends MongoRepository<Todo, String> {}
+interface TodoRepository3 extends MongoRepository<Todo3, String> {}
 
-// WHEN TO USE IT (@DBRef)?
+// WHEN TO USE @DBRef and not embedding?
 
 // - Unbounded Growth:
 //   If a list of related documents can grow without bound,
@@ -69,7 +69,7 @@ interface TodoRepository extends MongoRepository<Todo, String> {}
 
 // - Loose Coupling:
 //   When entities are more loosely coupled, or when they don’t always need to be retrieved
-// together.
+//   together.
 
 // CONTROL OVER LIST SIZE/ELEMENTS
 
@@ -82,3 +82,9 @@ interface TodoRepository extends MongoRepository<Todo, String> {}
 //   Ensure that each referenced entity adheres to specific rules or
 //   prerequisites before establishing a reference.
 //   (e.g. todos are not similar to each other.)
+
+// CASCADE OPERATIONS
+
+//  But be careful of Cascade Save/Update/Delete operations.
+//  e.g. If you delete a User, Spring Data MongoDB will not delete the referenced todos.
+//  You have to do it manually!

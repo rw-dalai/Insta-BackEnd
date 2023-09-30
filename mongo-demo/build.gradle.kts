@@ -44,18 +44,6 @@ dependencies {
 
 }
 
-// If @DBRef(lazy = true) is used,
-// then the following is needed by Spring Data Mongo to subclass the entity
-tasks.named("bootRun", BootRun::class) {
-    jvmArgs = listOf(
-        "--add-opens",
-        "java.base/java.lang=ALL-UNNAMED",
-        "--add-opens",
-        "java.base/jdk.internal.loader=ALL-UNNAMED"
-    )
-}
-
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }

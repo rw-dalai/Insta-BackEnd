@@ -39,9 +39,6 @@ interface UserRepository extends MongoRepository<User, String> {}
 
 // WHEN USE IT ?
 
-// - Always Together:
-//   Embed when two entities are always used together and do not make sense individually.
-
 // - Part of:
 //   When one entity “is part of” the other, it logically makes sense to embed it.
 

@@ -30,7 +30,7 @@ public class MongoDemoApplication4 {
 
       // We have to manually query for the todos !
       var todosBack = todoRepository.findByUserId(userBack.id());
-      System.out.println(todosBack);
+      todosBack.forEach(System.out::println);
     };
   }
 }
@@ -43,10 +43,14 @@ public class MongoDemoApplication4 {
 
 // - Question: I am not solving any problem with the list in the Class?
 // - Question2: I do not need any control over the size/items in the Class?
-// - Hint: I am modelling the relationship between two aggregates?
-// - If the answer yes to all, this approach might be for you.
+// - Hint: I want to model the relationship of an entity or aggregate?
+// - If the answer yes to some, this approach might be for you.
+// - Note: This is the most common approach to model relationships in MongoDB.
+// - Indexing: Ensure that the referenced ID fields are indexed in MongoDB for performance.
 
 // Domain Model
+//  Since User4 does not contain a list of Todo4 items, it remains a simple entity,
+//  potentially making it more performant and straightforward.
 record User4(@Id String id) {}
 
 record Todo4(@Id String id, String userId, String name) {}
@@ -58,10 +62,26 @@ interface TodoRepository4 extends MongoRepository<Todo4, String> {
   List<Todo4> findByUserId(String userId);
 }
 
-// WHEN TO USE IT (and not @DBRef)
+// WHEN TO USE IT ?
 
-// - Simplicity:
-//   Direct references are simpler to implement and manage.
+// - Unbounded Growth:
+//   If a list of related documents can grow without bound
+//   (document limit in MongoDB is 16MB)
 
-// - Control Over Related Entity Retrieval:
-//   Explicitly querying related entities provides control over data retrieval and performance.
+// - Has Many:
+//   The relationship between the documents is more like a "has" relationship.
+
+// - Data Normalization
+//   When you want to avoid duplication and keep data normalized.
+
+// - Loose Coupling:
+//   When documents don’t always need to be retrieved/updated together.
+
+// PLEASE KEEP IN MIND:
+//
+// - QUERYING RELATED DOCUMENTS:
+//   Querying related documents needs to be done manually.
+//   But this can be an advantage also, as it allows for control over the queries and performance.
+
+// - INDEXING:
+//   Ensure that the referenced ID fields are indexed in MongoDB for performance.

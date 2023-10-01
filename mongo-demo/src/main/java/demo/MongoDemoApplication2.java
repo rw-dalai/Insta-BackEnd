@@ -32,7 +32,7 @@ public class MongoDemoApplication2 {
 // No mismatch between Domain Model and Mongo Model
 
 // - Question: My list is small and bounded and the data is part of the Class
-//   (belongs together, e.g. list of value objects)?
+// - Hint: I want to model the relationship of a value object?
 // - If the answer is yes, this approach might be for you.
 
 // Domain Model
@@ -46,11 +46,16 @@ interface UserRepository2 extends MongoRepository<User2, String> {}
 // WHEN TO USE IT ?
 
 // - Bounded Growth:
-//   It's practical when the list has a reasonable and bounded size.
+//   It's practical when the List has a reasonable and bounded size.
+
+// - Part of:
+//   When one “is part of” the other, it logically makes sense to embed it.
+
+// - Read Performance:
+//   Embedded documents can be read in a single database operation, providing a performance benefit.
 
 // - Atomic Operations:
-//   Useful when you need to perform atomic operations on the entire entity,
-//   including its sub-documents.
+//   Useful when you need to perform atomic update operations on the entire document.
 
 // - Frequent Access Together:
-//   When the embedded entities are often accessed together with the parent entity.
+//   When the embedded document are often accessed together with the parent.

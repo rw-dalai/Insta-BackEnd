@@ -87,6 +87,11 @@ interface TodoRepository3 extends MongoRepository<Todo3, String> {}
 
 // PLEASE KEEP IN MIND:
 
+// - LAZY LOADING:
+//   The lazy=true property in @DBRef can be crucial in scenarios where you want to minimize
+//   the data being loaded, and only fetch the related documents when they are explicitly accessed.
+//   This can help mitigate some performance implications.
+
 // - CASCADE OPERATIONS need to be done manually !!!
 //   But be careful of Cascade Save/Update/Delete operations.
 //   You have to do it manually!

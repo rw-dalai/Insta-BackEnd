@@ -77,6 +77,9 @@ interface TodoRepository4 extends MongoRepository<Todo4, String> {
 // - Loose Coupling:
 //   When documents don’t always need to be retrieved/updated together.
 
+// - No List Control:
+//   I do not need any control over the size/items in the Class.
+
 // PLEASE KEEP IN MIND:
 //
 // - QUERYING RELATED DOCUMENTS:

@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 
-// Base class for all domain entities (that are persisted to the database)
+// Base class for all domain entities (that are persisted to the as an own collection)
 // Lombok generates getters for all fields
 // https://projectlombok.org/
 @Getter

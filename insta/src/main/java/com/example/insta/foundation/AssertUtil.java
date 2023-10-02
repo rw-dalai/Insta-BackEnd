@@ -32,9 +32,8 @@ public abstract class AssertUtil {
    * @throws IllegalArgumentException if the text is null or empty or longer than max
    */
   public static void hasMaxText(String text, int max, String message) {
-    String trimmedText = text.trim();
-    Assert.hasText(trimmedText, message);
-    Assert.isTrue(trimmedText.length() <= max, message);
+    Assert.hasText(text, message);
+    Assert.isTrue(text.length() <= max, message);
   }
 
   /**

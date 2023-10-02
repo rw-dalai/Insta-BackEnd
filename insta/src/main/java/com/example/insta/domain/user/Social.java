@@ -7,8 +7,7 @@ import java.util.Map;
 /**
  * Relationships of a user.
  *
- * <p>Here we can place the relationships of a user. <br>
- * Following, followers, blocked users, etc. <br>
+ * <p>Following, followers, blocked users, etc. <br>
  */
 
 // This class in inlined in User.

@@ -15,6 +15,7 @@ import com.example.insta.domain.media.Media;
 public class Profile {
 
   // private Address address;
+
   private String firstName;
   private String lastName;
   private Media avatar;

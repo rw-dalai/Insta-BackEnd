@@ -14,14 +14,18 @@ import org.springframework.data.mongodb.core.index.Indexed;
 /** A comment from one user in a post. */
 
 // We extend from BaseEntity because it's an own collection in MongoDB.
-// We do not inline this class into MessengerEntry because it can grow out of bound.
+// We do not inline this class into Post because it can grow out of bound.
 @Getter
 @ToString
 public class Comment extends BaseEntity<String> {
-  // Who created this comment?
+
+  // Which post does this comment belong to?
   // Indexes speed up queries in MongoDB by providing efficient access to data.
   // https://stackoverflow.com/questions/1108/how-does-database-indexing-work
   @Indexed(unique = true)
+  private String postId;
+
+  // Who created this comment?
   private String userId;
 
   // The text of the comment.
@@ -39,12 +43,14 @@ public class Comment extends BaseEntity<String> {
   }
 
   // Constructor for us developers to use when creating a new user in memory.
-  public Comment(String userId, String text) {
+  public Comment(String postId, String userId, String text) {
     super(generateUUIDv4());
 
+    notNull(postId, "postId must not be null");
     notNull(userId, "userId must not be null");
     hasMaxText(text, 4096, "text must be less or equal 4096 character");
 
+    this.postId = postId;
     this.userId = userId;
     this.text = text;
     this.likes = new HashSet<>();

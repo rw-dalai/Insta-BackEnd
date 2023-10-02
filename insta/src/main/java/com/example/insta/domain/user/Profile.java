@@ -1,9 +1,9 @@
 package com.example.insta.domain.user;
 
 import static com.example.insta.foundation.AssertUtil.hasMaxText;
+import static org.springframework.util.Assert.notNull;
 
 import com.example.insta.domain.media.Media;
-import org.springframework.util.Assert;
 
 /**
  * Profile of a user.
@@ -19,18 +19,13 @@ public class Profile {
   private String lastName;
   private Media avatar;
 
-  public void setFirstName(String firstName) {
+  public Profile(String firstName, String lastName, Media avatar) {
     hasMaxText(firstName, 255, "firstName must be less or equal 255 character");
-    this.firstName = firstName;
-  }
-
-  public void setLastName(String lastName) {
     hasMaxText(lastName, 255, "lastName must be less or equal 255 character");
-    this.lastName = lastName;
-  }
+    notNull(avatar, "avatar must not be null");
 
-  public void setAvatar(Media avatar) {
-    Assert.notNull(avatar, "avatar must not be null");
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.avatar = avatar;
   }
 }

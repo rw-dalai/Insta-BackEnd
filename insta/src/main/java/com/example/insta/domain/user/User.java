@@ -42,7 +42,7 @@ public class User extends BaseEntity<String> {
   }
 
   // Constructor for us developers to use when creating a new user in memory.
-  public User(String email, String password, Role role) {
+  public User(String email, String password, Role role, Profile profile) {
     super(generateUUIDv4());
 
     isValidEmail(email, "email must be a valid email address");
@@ -50,7 +50,7 @@ public class User extends BaseEntity<String> {
     this.email = email;
     this.password = password;
     this.role = role;
-    this.profile = new Profile();
+    this.profile = profile;
     this.social = new Social();
     this.account = new Account();
   }

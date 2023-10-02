@@ -42,7 +42,7 @@ public class Comment extends BaseEntity<String> {
   public Comment(String userId, String text) {
     super(generateUUIDv4());
 
-    notNull(userId, "userId must not be null or empty");
+    notNull(userId, "userId must not be null");
     hasMaxText(text, 4096, "text must be less or equal 4096 character");
 
     this.userId = userId;

@@ -4,6 +4,7 @@ import static com.example.insta.foundation.AssertUtil.hasMaxSizeOrNull;
 import static com.example.insta.foundation.AssertUtil.hasMaxTextOrNull;
 import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
 import static org.springframework.util.Assert.isTrue;
+import static org.springframework.util.Assert.notNull;
 
 import com.example.insta.domain.BaseEntity;
 import com.example.insta.domain.media.Media;
@@ -53,9 +54,11 @@ public class Message extends BaseEntity<String> {
       @Nullable List<Media> medias) {
     super(generateUUIDv4());
 
-    isTrue(text != null || medias != null, "text or medias must not be null");
+    notNull(messengerEntryId, "messengerEntryId must not be null");
+    notNull(senderId, "senderId must not be null");
     hasMaxTextOrNull(text, 4096, "text must be less or equal 4096 character");
     hasMaxSizeOrNull(medias, 10, "medias must be less or equal 10");
+    isTrue(text != null || medias != null, "text or medias must not be null");
 
     this.messengerEntryId = messengerEntryId;
     this.senderId = senderId;

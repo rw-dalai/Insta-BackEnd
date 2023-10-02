@@ -38,6 +38,18 @@ public abstract class AssertUtil {
   }
 
   /**
+   * Assert that the given collection has minimum size.
+   *
+   * @param collection the collection to check
+   * @param min the minimum size
+   * @param message the exception message to use if the assertion fails
+   */
+  public static <T> void hasMinSize(Collection<T> collection, int min, String message) {
+    Assert.notNull(collection, message);
+    Assert.isTrue(!collection.isEmpty() && collection.size() >= min, message);
+  }
+
+  /**
    * Assert that the given collection has maximum size.
    *
    * @param collection the collection to check

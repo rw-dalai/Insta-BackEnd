@@ -1,6 +1,8 @@
 package com.example.insta.domain.messenger;
 
+import static com.example.insta.foundation.AssertUtil.hasMinSize;
 import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
+import static org.springframework.util.Assert.notNull;
 
 import com.example.insta.domain.BaseEntity;
 import java.util.Set;
@@ -33,6 +35,9 @@ public class MessengerEntry extends BaseEntity<String> {
   // Constructor for us developers to use when creating a new user in memory.
   public MessengerEntry(String creatorId, Set<String> participantIds) {
     super(generateUUIDv4());
+
+    notNull(creatorId, "creatorId must not be null");
+    hasMinSize(participantIds, 2, "participantIds must be at least 2");
 
     this.creatorId = creatorId;
     this.participantIds = participantIds;

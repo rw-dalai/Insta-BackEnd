@@ -1,8 +1,8 @@
 package com.example.insta.domain.post;
 
 import static com.example.insta.foundation.AssertUtil.hasMaxText;
+import static com.example.insta.foundation.AssertUtil.isNotNull;
 import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
-import static org.springframework.util.Assert.notNull;
 
 import com.example.insta.domain.BaseEntity;
 import java.util.HashSet;
@@ -38,6 +38,8 @@ public class Comment extends BaseEntity<String> {
   // ctor --------------------------------------------
 
   // Constructor for Spring Data to use when creating a new user from DB into memory.
+  // Spring Data uses reflection to create an instance of this class.
+  // https://www.youtube.com/watch?v=bhhMJSKNCQY
   protected Comment(String id) {
     super(id);
   }
@@ -46,13 +48,9 @@ public class Comment extends BaseEntity<String> {
   public Comment(String postId, String userId, String text) {
     super(generateUUIDv4());
 
-    notNull(postId, "postId must not be null");
-    notNull(userId, "userId must not be null");
-    hasMaxText(text, 4096, "text must be less or equal 4096 character");
-
-    this.postId = postId;
-    this.userId = userId;
-    this.text = text;
+    this.postId = isNotNull(postId, "postId");
+    this.userId = isNotNull(userId, "userId");
+    this.text = hasMaxText(text, 4096, "text");
     this.likes = new HashSet<>();
   }
 }

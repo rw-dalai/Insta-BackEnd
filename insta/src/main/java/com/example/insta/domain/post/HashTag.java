@@ -11,6 +11,6 @@ import static com.example.insta.foundation.AssertUtil.hasMaxText;
 public record HashTag(String value) {
   // Constructor with validation
   public HashTag {
-    hasMaxText(value, 50, "hash tag must not be longer than 50 characters");
+    hasMaxText(value, 50, "hash tag");
   }
 }

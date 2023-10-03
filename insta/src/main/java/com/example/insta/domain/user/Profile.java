@@ -1,7 +1,7 @@
 package com.example.insta.domain.user;
 
 import static com.example.insta.foundation.AssertUtil.hasMaxText;
-import static org.springframework.util.Assert.notNull;
+import static com.example.insta.foundation.AssertUtil.isNotNull;
 
 import com.example.insta.domain.media.Media;
 
@@ -21,12 +21,9 @@ public class Profile {
   private Media avatar;
 
   public Profile(String firstName, String lastName, Media avatar) {
-    hasMaxText(firstName, 255, "firstName must be less or equal 255 character");
-    hasMaxText(lastName, 255, "lastName must be less or equal 255 character");
-    notNull(avatar, "avatar must not be null");
-
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.avatar = avatar;
+    this.firstName = hasMaxText(firstName, 255, "firstName");
+    this.lastName = hasMaxText(lastName, 255, "lastName");
+    // That means the user has to upload an avatar if not we can make it nullable.
+    this.avatar = isNotNull(avatar, "avatar");
   }
 }

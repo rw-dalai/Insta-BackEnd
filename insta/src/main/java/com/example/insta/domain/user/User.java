@@ -37,6 +37,8 @@ public class User extends BaseEntity<String> {
   // ctor --------------------------------------------
 
   // Constructor for Spring Data to use when creating a new user from DB into memory.
+  // Spring Data uses reflection to create an instance of this class.
+  // https://www.youtube.com/watch?v=bhhMJSKNCQY
   protected User(String id) {
     super(id);
   }
@@ -45,9 +47,7 @@ public class User extends BaseEntity<String> {
   public User(String email, String password, Role role, Profile profile) {
     super(generateUUIDv4());
 
-    isValidEmail(email, "email must be a valid email address");
-
-    this.email = email;
+    this.email = isValidEmail(email, "email");
     this.password = password;
     this.role = role;
     this.profile = profile;

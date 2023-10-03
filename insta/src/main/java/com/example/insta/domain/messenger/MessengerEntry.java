@@ -1,8 +1,8 @@
 package com.example.insta.domain.messenger;
 
 import static com.example.insta.foundation.AssertUtil.hasMinSize;
+import static com.example.insta.foundation.AssertUtil.isNotNull;
 import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
-import static org.springframework.util.Assert.notNull;
 
 import com.example.insta.domain.BaseEntity;
 import java.util.Set;
@@ -28,6 +28,8 @@ public class MessengerEntry extends BaseEntity<String> {
   // ctor --------------------------------------------
 
   // Constructor for Spring Data to use when creating a new user from DB into memory.
+  // Spring Data uses reflection to create an instance of this class.
+  // https://www.youtube.com/watch?v=bhhMJSKNCQY
   protected MessengerEntry(String id) {
     super(id);
   }
@@ -36,10 +38,7 @@ public class MessengerEntry extends BaseEntity<String> {
   public MessengerEntry(String creatorId, Set<String> participantIds) {
     super(generateUUIDv4());
 
-    notNull(creatorId, "creatorId must not be null");
-    hasMinSize(participantIds, 2, "participantIds must be at least 2");
-
-    this.creatorId = creatorId;
-    this.participantIds = participantIds;
+    this.creatorId = isNotNull(creatorId, "creatorId");
+    this.participantIds = hasMinSize(participantIds, 2, "participantIds");
   }
 }

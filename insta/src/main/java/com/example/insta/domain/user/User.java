@@ -6,6 +6,7 @@ import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
 import com.example.insta.domain.BaseEntity;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 /** A user of the application. */
@@ -39,6 +40,7 @@ public class User extends BaseEntity<String> {
   // Constructor for Spring Data to use when creating a new user from DB into memory.
   // Spring Data uses reflection to create an instance of this class.
   // https://www.youtube.com/watch?v=bhhMJSKNCQY
+  @PersistenceCreator
   protected User(String id) {
     super(id);
   }

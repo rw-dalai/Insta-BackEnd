@@ -15,7 +15,7 @@ public class Social {
   // A map of user ids to relations (key=fromUserId, value=relation)
   // Example: { "123": { "type": "INCOMING", "createdAt": "2023-01-01T00:00:00Z" } }
   // In this example our user has a friend request from user with id 123.
-  private final Map<String, Relation> relations = new HashMap<>();
+  private Map<String, Relation> relations = new HashMap<>();
 
   public record Relation(RelationType type, Instant createdAt) {}
 

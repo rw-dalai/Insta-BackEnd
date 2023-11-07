@@ -22,8 +22,8 @@ public class Comment extends BaseEntity<String> {
   // Which post does this comment belong to?
   // Indexes speed up queries in MongoDB by providing efficient access to data.
   // https://stackoverflow.com/questions/1108/how-does-database-indexing-work
-  @Indexed(unique = true)
-  private String postId;
+  // do not use unique indexes here
+  @Indexed private String postId;
 
   // Who created this comment?
   private String userId;

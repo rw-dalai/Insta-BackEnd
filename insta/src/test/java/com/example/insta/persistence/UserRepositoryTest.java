@@ -23,6 +23,20 @@ import org.springframework.dao.OptimisticLockingFailureException;
 
 // https://hamcrest.org/JavaHamcrest/tutorial
 
+// What to test ?
+// --------------------------------------------------------------------------------------------
+// 1. SUCCESS: test if user is saved
+// 2. SUCCESS: test if audit fields are set automatically
+// 3. SUCCESS: test if user is found by id
+// 4. SUCCESS: test if user is found by email
+// 5. FAIL: test if user is saved with duplicate email
+// 6. FAIL: test if user is saved with old version
+
+// Annotations used?
+// --------------------------------------------------------------------------------------------
+// @DataMongoTest to load Spring context but not the whole application (only MongoDB)
+// @Import to import MongoConfig
+
 @DataMongoTest
 @Import(MongoConfig.class)
 public class UserRepositoryTest {
@@ -75,6 +89,7 @@ public class UserRepositoryTest {
   }
 
   @Test
+  // public void givenExistingUser_whenFindById_thenReturnsUser() {
   public void findById_shouldReturnUser_whenUserExists() {
     // When
     var userFound = userRepository.findById(userSaved.getId());

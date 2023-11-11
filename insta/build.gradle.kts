@@ -30,6 +30,10 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+
+	// https://mvnrepository.com/artifact/com.nulab-inc/zxcvbn
+	implementation("com.nulab-inc:zxcvbn:1.8.2")
+
 }
 
 tasks.withType<Test> {

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /** A user of the application. */
 
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 // We extend from BaseEntity because it's an own collection in MongoDB.
 @Getter
 @ToString
+@Document(collection = "user")
 public class User extends BaseEntity<String> {
   // Indexes speed up queries in MongoDB by providing efficient access to data.
   // https://stackoverflow.com/questions/1108/how-does-database-indexing-work
@@ -46,10 +48,12 @@ public class User extends BaseEntity<String> {
   }
 
   // Constructor for us developers to use when creating a new user in memory.
+  // public User(String email, EncodedPassword password, Role role, Profile profile) {
   public User(String email, String password, Role role, Profile profile) {
     super(generateUUIDv4());
 
     this.email = isValidEmail(email, "email");
+    // this.password = password.getEncodedPassword();
     this.password = password;
     this.role = role;
     this.profile = profile;

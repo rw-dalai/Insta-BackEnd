@@ -22,19 +22,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 // Annotations used?
 // --------------------------------------------------------------------------------------------
-// @SpringBootTest to load Spring context but not the whole application (only security)
+// @SpringBootTest to load Spring context
+// @SpringBootTest(classes = { ... }) to load Spring context with specific classes
 // @TestInstance not to have to declare test methods as static
+// @Autowired to inject PasswordService into this test
 // @BeforeAll to run setup() once before all tests
-// @Autowired to inject PasswordEncoder from SecurityConfig
+// @Test to mark test methods
 
 // @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = {PasswordService.class, SecurityConfig.class})
 public class PasswordServiceTest {
   // Test Fixtures
-  public static final String STRONG_PASSWORD = "alleMeineJavaEntchen";
+  public static final String STRONG_PASSWORD = "alle meine 99 java entchen lieben C#";
   public static final String WEAK_PASSWORD = "password5566";
 
-  // We need to inject the PasswordService from Spring
+  // We need to use @Autowired because JUNIT does not support constructor injection
   @Autowired PasswordService passwordService;
 
   // If the PasswordEncoder is not injected by Spring, then use this setup() method

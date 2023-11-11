@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 
 // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-lookup-strategies
 
+// Annotations used?
+// --------------------------------------------------------------------------------------------
+// @Repository to tell Spring that this is a repository
+
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 

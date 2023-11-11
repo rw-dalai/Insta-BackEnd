@@ -11,6 +11,19 @@ import org.springframework.stereotype.Service;
 // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
 // https://auth0.com/blog/hashing-passwords-one-way-road-to-security/
 
+// AI crack passwords
+// https://tech.co/news/ai-can-guess-your-password
+// https://www.homesecurityheroes.com/ai-password-cracking/
+
+// NIST Password Guidelines Summary
+// https://blog.netwrix.com/2022/11/14/nist-password-guidelines/
+
+// NIST Password Guidelines Publication
+// https://pages.nist.gov/800-63-3/sp800-63b.html
+
+// ZXCVBN Library
+// https://github.com/dropbox/zxcvbn
+
 // General Information about Hashing
 // --------------------------------------------------------------------
 // Cryptographic hash functions are often used to store passwords in a database.
@@ -27,6 +40,12 @@ import org.springframework.stereotype.Service;
 
 // Not all hash functions are cryptographic hash functions.
 //   A cryptographic hash function is designed to be slow to compute.
+//   Why ? To make brute-force attacks infeasible.
+
+// What is the purpose of the salt ?
+//   The salt is a random string that is added to the password before hashing.
+//   The salt is stored in clear text in the database together with the hashed password.
+//   The salt prevents rainbow table attacks and identical passwords of having the same hash.
 
 // How does BCrypt work?
 // --------------------------------------------------------------------
@@ -36,7 +55,7 @@ import org.springframework.stereotype.Service;
 // The salt is typically a random value.
 // The bcrypt function uses these inputs to compute a 24-byte hash.
 // The final output of the bcrypt function is a string of the form:
-// {bcrypt}$<id>$<cost>$<salt><digest>
+// {bcrypt}$<id>$<cost>$<salt><hash>
 // {bcrypt}$2<a/b/x/y>$[cost]$[22 character(base64) salt][31 character (base64) hash]
 // {bcrypt}$2a$10$/YeAGfv.i/NgnUCYygA0/uDomrkxM4Ji5ksO3d5UIS7zU0S/1epOi
 // --------------------------------------------------------------------
@@ -49,7 +68,7 @@ import org.springframework.stereotype.Service;
 // Annotations used?
 // --------------------------------------------------------------------------------------------
 // @Service to make this class a Spring Bean
-// @RequiredArgsConstructor to inject PasswordEncoder from SecurityConfig
+// @RequiredArgsConstructor to create a constructor with all required fields (e.g. final fields)
 
 // outer class
 @Service
@@ -58,7 +77,7 @@ public class PasswordService {
   public static final int ZXCVBN_STRENGTH_THRESHOLD = 3;
 
   private final Zxcvbn zxcvbn = new Zxcvbn();
-  // Injected by Spring
+  // Inject PasswordEncoder from SecurityConfig
   private final PasswordEncoder passwordEncoder;
 
   /**
@@ -80,14 +99,15 @@ public class PasswordService {
   }
 
   // inner class
-  // static classes have no access to outer class
+  // Static classes have no access to outer class members.
   @Getter
   public static class EncodedPassword {
     // the hashed password
     // e.g {bcrypt}$2a$10$/YeAGfv.i/NgnUCYygA0/uDomrkxM4Ji5ksO3d5UIS7zU0S/1epOi
     private final String encodedPassword;
 
-    // Private constructors are only accessible from within the class and outer class
+    // Private constructors are only accessible from within the class and outer class.
+    // So only PasswordService can create EncodedPassword objects.
     private EncodedPassword(String hashedValue) {
       this.encodedPassword = hashedValue;
     }

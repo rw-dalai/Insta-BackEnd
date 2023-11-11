@@ -35,7 +35,10 @@ import org.springframework.dao.OptimisticLockingFailureException;
 // Annotations used?
 // --------------------------------------------------------------------------------------------
 // @DataMongoTest to load Spring context but not the whole application (only MongoDB)
-// @Import to import MongoConfig
+// @Import to import MongoConfig into this test
+// @Autowired to inject UserRepository into this test
+// @BeforeEach to run setup() before each test
+// @Test to mark test methods
 
 @DataMongoTest
 @Import(MongoConfig.class)

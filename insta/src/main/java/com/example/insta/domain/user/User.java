@@ -10,6 +10,14 @@ import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+// Annotations used?
+// --------------------------------------------------------------------------------------------
+// @Getter to generate getters for all fields
+// @ToString to generate toString() method for all fields
+// @Document to tell Spring that this is a MongoDB document
+// @Indexed to tell Spring to create an index for this field
+// @PersistenceCreator to tell Spring to use this constructor when creating a new user from DB
+
 /** A user of the application. */
 
 // User is an Aggregate Root.

@@ -61,7 +61,7 @@ public class UserRepositoryTest {
 
   @Test
   // public void ensure_saveUser_works()
-  public void saveUser_shouldWork() {
+  public void saveUser_shouldReturnSavedUser() {
     // GWT / AAA
 
     // Given (Arrange)
@@ -76,7 +76,7 @@ public class UserRepositoryTest {
   }
 
   @Test
-  public void auditFields_shouldBeSetAutomatically() {
+  public void saveUser_shouldSetAuditFields() {
     // Given
     // var profile = new Profile("Rene", "Wenz");
     // var user = new User("wenz@spengergasse.at", "password", USER, profile);

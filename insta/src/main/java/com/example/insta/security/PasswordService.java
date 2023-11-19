@@ -80,6 +80,17 @@ public class PasswordService {
   // Inject PasswordEncoder from SecurityConfig
   private final PasswordEncoder passwordEncoder;
 
+  // constructor injection
+  //  public PasswordService(PasswordEncoder passwordEncoder) {
+  //    this.passwordEncoder = passwordEncoder;
+  //  }
+
+  // setter injection
+  //  public void setPasswordEncoder(PasswordEncoder encoder)
+  //  {
+  //    this.passwordEncoder = passwordEncoder;
+  //  }
+
   /**
    * @param rawPassword the password to be encoded
    * @throws IllegalArgumentException if the password is too weak (zxcvbn score < 3)

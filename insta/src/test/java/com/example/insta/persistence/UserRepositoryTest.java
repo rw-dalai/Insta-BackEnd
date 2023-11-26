@@ -17,12 +17,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
 
-// JUnit Asserts
-// Hamcrest
-// AssertJ
-
-// https://hamcrest.org/JavaHamcrest/tutorial
-
 // What to test ?
 // --------------------------------------------------------------------------------------------
 // 1. SUCCESS: test if user is saved
@@ -32,10 +26,37 @@ import org.springframework.dao.OptimisticLockingFailureException;
 // 5. FAIL: test if user is saved with duplicate email
 // 6. FAIL: test if user is saved with old version
 
+// Assertion Libraries
+// --------------------------------------------------------------------------------------------
+// An assertion library is a library that provides a set of assertion methods, i.e. methods that
+// verify something about the state of the system under test.
+// - JUnit Asserts
+// - Hamcrest Matchers
+// - AssertJ Assertions
+
+// Test Naming Conventions?
+// --------------------------------------------------------------------------------------------
+// method_shouldXXX_whenXXX
+// https://matheus.ro/2017/09/24/unit-test-naming-convention/
+
+// What is a Test Fixture?
+// --------------------------------------------------------------------------------------------
+// A test fixture is a fixed state of a set of objects used as a baseline for running tests.
+// The purpose of a test fixture is to ensure that there is a well known and fixed environment
+// in which tests are run so that results are repeatable.
+// Examples of fixtures:
+// - loading a database with a specific, known set of data
+// - copying a specific known set of files
+// - preparation of input data and set-up/creation of fake or mock objects
+// - loading a test fixture may be expensive, so it is usually done before a number of tests are
+// run,
+//   and similarly, cleaning up after a test may also be expensive and is often done after a number
+//   of tests as well, but in some cases may be done after each test has been performed.
+
 // Annotations used?
 // --------------------------------------------------------------------------------------------
-// @DataMongoTest to load Spring context but not the whole application (only MongoDB)
-// @Import to import MongoConfig into this test
+// @DataMongoTest to load Spring context but only spring data mongo beans
+// @Import to import MongoConfig beans into this test
 // @Autowired to inject UserRepository into this test
 // @BeforeEach to run setup() before each test
 // @Test to mark test methods
@@ -45,6 +66,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 public class UserRepositoryTest {
   @Autowired private UserRepository userRepository;
 
+  // Test Fixtures
   public static final String MAIL = "wenz@spengergasse.at";
 
   private User userSaved;

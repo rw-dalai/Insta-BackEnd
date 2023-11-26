@@ -57,10 +57,11 @@ import org.springframework.stereotype.Service;
 // The final output of the bcrypt function is a string of the form:
 // {bcrypt}$<id>$<cost>$<salt><hash>
 // {bcrypt}$2<a/b/x/y>$[cost]$[22 character(base64) salt][31 character (base64) hash]
-// {bcrypt}$2a$10$/YeAGfv.i/NgnUCYygA0/uDomrkxM4Ji5ksO3d5UIS7zU0S/1epOi
 // --------------------------------------------------------------------
+// Example:
+// {bcrypt}$2a$10$/YeAGfv.i/NgnUCYygA0/uDomrkxM4Ji5ksO3d5UIS7zU0S/1epOi
 // Algorithm: {bcrypt}
-// Version: $2a $<id>$<cost>$<salt><digest>
+// Version: $2a $<id>
 // Cost Factor: $10
 // Salt: $/YeAGfv.i/NgnUCYygA0/u
 // Hashed Value: DomrkxM4Ji5ksO3d5UIS7zU0S/1epOi
@@ -70,7 +71,7 @@ import org.springframework.stereotype.Service;
 // @Service to make this class a Spring Bean
 // @RequiredArgsConstructor to create a constructor with all required fields (e.g. final fields)
 
-// outer class
+// <<Outer Class>>
 @Service
 @RequiredArgsConstructor
 public class PasswordService {
@@ -86,8 +87,7 @@ public class PasswordService {
   //  }
 
   // setter injection
-  //  public void setPasswordEncoder(PasswordEncoder encoder)
-  //  {
+  //  public void setPasswordEncoder(PasswordEncoder encoder) {
   //    this.passwordEncoder = passwordEncoder;
   //  }
 
@@ -109,16 +109,19 @@ public class PasswordService {
     return new EncodedPassword(encodePassword);
   }
 
-  // inner class
-  // Static classes have no access to outer class members.
+  // <<Inner Class>>
+  // In Java we can have classes inside classes.
+  // Inner classes can be "non-static" or "static".
+  // - Non-static classes have access to outer class members.
+  // - Static classes have no access to outer class members.
   @Getter
   public static class EncodedPassword {
     // the hashed password
     // e.g {bcrypt}$2a$10$/YeAGfv.i/NgnUCYygA0/uDomrkxM4Ji5ksO3d5UIS7zU0S/1epOi
     private final String encodedPassword;
 
-    // Private constructors are only accessible from within the class and outer class.
-    // So only PasswordService can create EncodedPassword objects.
+    // Private constructors are only accessible from within the class and the <<Outer Class>>.
+    // So only `PasswordService` can create `EncodedPassword` objects.
     private EncodedPassword(String hashedValue) {
       this.encodedPassword = hashedValue;
     }

@@ -39,6 +39,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.nulab-inc/zxcvbn
 	implementation("com.nulab-inc:zxcvbn:1.8.2")
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation("org.springframework.boot:spring-boot-starter-mail:3.2.0")
+
+
+
+
 }
 
 tasks.withType<Test> {

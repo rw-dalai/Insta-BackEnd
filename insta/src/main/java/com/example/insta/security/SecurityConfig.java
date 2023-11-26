@@ -60,4 +60,10 @@ public class SecurityConfig {
     // return new BCryptPasswordEncoder();
     // return new Argon2PasswordEncoder();
   }
+
+  //  @Bean
+  //  public PasswordService passwordService(PasswordEncoder passwordEncoder)
+  //  {
+  //    return new PasswordService(passwordEncoder);
+  //  }
 }

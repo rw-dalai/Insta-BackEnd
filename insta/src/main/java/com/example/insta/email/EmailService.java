@@ -2,6 +2,7 @@ package com.example.insta.email;
 
 import com.example.insta.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 // Class Purpose?
@@ -28,14 +29,30 @@ import org.springframework.stereotype.Service;
 public class EmailService {
   private final EMailSender mailSender;
 
+  @Value("${domain}")
+  private String domain;
+
+  private final String VERIFICATION_LINK = "%s/api/registration/verify/userId=%s&tokenId=%s";
+
   //    private final JavaMailSenderImpl mailSender;
   //    private final LoggerMailSenderImpl mailSender;
 
-  public void sendVerificationEmail(User user, String token) {
-    // TODO
-    // send Mail
+  //     @Async
+  //  public void sendVerificationEmail(User user, String tokenId) {
+  public void sendVerificationEmail(User user) {
+    var emailDTO =
+        new EmailDTO(
+            user.getEmail(),
+            getVerificationSubject(),
+            getVerificationBody(user, user.getAccount().getTokenId()));
+    mailSender.sendMail(emailDTO);
+  }
 
-    // var emailDTO = new EmailDTO()
-    // mailSender.sendMail(emailDTO);
+  public String getVerificationSubject() {
+    return "Please verify your email";
+  }
+
+  public String getVerificationBody(User user, String tokenId) {
+    return String.format(VERIFICATION_LINK, domain, user.getId(), tokenId);
   }
 }

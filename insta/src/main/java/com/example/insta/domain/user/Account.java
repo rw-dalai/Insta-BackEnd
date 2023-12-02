@@ -1,5 +1,8 @@
 package com.example.insta.domain.user;
 
+import java.util.UUID;
+import lombok.Getter;
+
 /**
  * Account of a user.
  *
@@ -11,8 +14,10 @@ package com.example.insta.domain.user;
  */
 
 // This class in inlined in User.
+@Getter
 public class Account {
   private boolean enabled;
+  private String tokenId = UUID.randomUUID().toString();
   // private EmailVerificationToken verificationToken;
 
   // TODO: Handle verificationToken

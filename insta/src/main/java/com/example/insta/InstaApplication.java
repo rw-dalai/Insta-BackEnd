@@ -13,9 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // Standalone: Enables building applications that run with an embedded server (e.g. Tomcat).
 // Dependency Injection: Enables loose coupling between components (e.g. constructor injection).
 // Testable: Provides support for integration and unit testing (e.g. JUnit, Mockito).
-// Spring Boot Starters: Offers ready-to-use dependencies (e.g. Spring Data JPA, Spring Security).
-// Microservices Readiness: Ideally suited for building microservices (e.g. Spring Cloud).
+// Starters: Offers ready-to-use dependencies (e.g. Spring Data JPA, Spring Security).
+// Microservices: Ideally suited for building microservices (e.g. Spring Cloud).
 // Data Access: Supports a wide range of SQL and NoSQL data access technologies (e.g. MongoDB)
+// Security: Provides authentication, authorization and other security features (e.g. JWT).
 
 // @SpringBootApplication is a convenience annotation that adds all the following:
 // --------------------------------------------------------------------------------------------
@@ -24,8 +25,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // - @EnableAutoConfiguration
 //   Tells Spring to auto-configure the application based on dependencies e.g. build.gradle.
 // - @ComponentScan
-//   Tells Spring to scan for other components, configuration and services in the package.
+//   Tells Spring to scan for other components, configuration and services in our packages.
 
+// @SpringBootApplication(scanBasePackages = {"com.example.insta"})
+// @SpringBootApplication(exclude = { SecurityAutoConfiguration.class})
 @SpringBootApplication
 public class InstaApplication {
   public static void main(String[] args) {

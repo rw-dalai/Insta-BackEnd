@@ -92,6 +92,8 @@ public class PasswordService {
   //  }
 
   /**
+   * Checks password strength and encodes it with a cryptographic hashing functions
+   *
    * @param rawPassword the password to be encoded
    * @throws IllegalArgumentException if the password is too weak (zxcvbn score < 3)
    * @return the encoded password as a custom type {@link EncodedPassword}

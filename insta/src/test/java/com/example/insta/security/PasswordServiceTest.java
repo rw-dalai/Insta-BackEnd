@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
 // 1. Test Password Strength
 // - FAIL: test weak password (zxcvbn score <= 2)
 // - SUCCESS: test strong password (zxcvbn score > 2)
-
 // 2. Test Password Encoding
 // - SUCCESS: test if password is encoded (-> hash)
 // - SUCCESS: test if identical passwords are encoded (-> hash) with different salt
@@ -27,7 +26,7 @@ import org.springframework.context.annotation.Import;
 // SUT_ExpectedBehaviour_StateUnderTest
 // https://matheus.ro/2017/09/24/unit-test-naming-convention/
 
-// Assertion Libraries
+// Assertion Libraries?
 // --------------------------------------------------------------------------------------------
 // An assertion library is a library that provides a set of assertion methods, i.e. methods that
 // verify something about the state of the system under test.

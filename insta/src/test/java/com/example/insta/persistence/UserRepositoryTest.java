@@ -1,13 +1,12 @@
 package com.example.insta.persistence;
 
-import static com.example.insta.domain.user.Role.USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.example.insta.config.MongoConfig;
-import com.example.insta.domain.user.Profile;
 import com.example.insta.domain.user.User;
+import com.example.insta.fixture.UserFixture;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,16 +65,11 @@ import org.springframework.dao.OptimisticLockingFailureException;
 public class UserRepositoryTest {
   @Autowired private UserRepository userRepository;
 
-  // Test Fixtures
-  public static final String MAIL = "wenz@spengergasse.at";
-
   private User userSaved;
 
   @BeforeEach
   public void setup() {
-    // Given
-    var profile = new Profile("Rene", "Wenz");
-    var user = new User(MAIL, "password", USER, profile);
+    var user = UserFixture.createUser();
 
     userRepository.deleteAll();
     userSaved = userRepository.save(user);
@@ -142,8 +136,9 @@ public class UserRepositoryTest {
   @Test
   public void saveUser_shouldFail_withDuplicateEmail() {
     // Given
-    var profile = new Profile("Rene", "Wenz");
-    var duplicatedUser = new User(MAIL, "password", USER, profile);
+    // var profile = new Profile("Rene", "Wenz");
+    // var duplicatedUser = new User(MAIL, "password", USER, profile);
+    var duplicatedUser = UserFixture.createUser();
 
     // When / Then
     assertThrows(DuplicateKeyException.class, () -> userRepository.save(duplicatedUser));

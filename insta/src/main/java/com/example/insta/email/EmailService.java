@@ -22,30 +22,29 @@ import org.springframework.stereotype.Service;
 // Annotations used?
 // --------------------------------------------------------------------------------------------
 // @Service to mark this class as a Spring service
-// @RequiredArgsConstructor to inject a bean of type EMailSender into this class
+// @RequiredArgsConstructor Lombok annotation that generates a constructor with all required fields.
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
   private final EMailSender mailSender;
 
-  @Value("${domain}")
+  @Value("${app.domain}")
   private String domain;
 
   private final String VERIFICATION_LINK = "%s/api/registration/verify/userId=%s&tokenId=%s";
 
-  //    private final JavaMailSenderImpl mailSender;
-  //    private final LoggerMailSenderImpl mailSender;
+  // private final JavaMailSenderImpl mailSender;
+  // private final LoggerMailSenderImpl mailSender;
 
-  //     @Async
-  //  public void sendVerificationEmail(User user, String tokenId) {
+  // @Async
+  // public void sendVerificationEmail(User user, String tokenId) {
   public void sendVerificationEmail(User user) {
-    var emailDTO =
+    mailSender.sendMail(
         new EmailDTO(
             user.getEmail(),
             getVerificationSubject(),
-            getVerificationBody(user, user.getAccount().getTokenId()));
-    mailSender.sendMail(emailDTO);
+            getVerificationBody(user, user.getAccount().getTokenId())));
   }
 
   public String getVerificationSubject() {

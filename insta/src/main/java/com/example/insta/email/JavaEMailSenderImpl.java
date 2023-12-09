@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 // --------------------------------------------------------------------------------------------
 // @Service to mark this class as a Spring service
 // @ConditionalOnBean(...) to only create this bean if `JavaMailSender` is present
-// @RequiredArgsConstructor to inject JavaMailSender into this class
+// @RequiredArgsConstructor Lombok annotation that generates a constructor with all required fields.
 
 @Service
 @ConditionalOnBean(JavaMailSender.class)

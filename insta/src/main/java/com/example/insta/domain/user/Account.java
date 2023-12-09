@@ -16,7 +16,7 @@ import lombok.Getter;
 // This class in inlined in User.
 @Getter
 public class Account {
-  private boolean enabled;
+  private boolean enabled = false;
   private String tokenId = UUID.randomUUID().toString();
   // private EmailVerificationToken verificationToken;
 

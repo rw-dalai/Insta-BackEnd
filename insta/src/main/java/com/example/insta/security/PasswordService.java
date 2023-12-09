@@ -69,7 +69,7 @@ import org.springframework.stereotype.Service;
 // Annotations used?
 // --------------------------------------------------------------------------------------------
 // @Service to make this class a Spring Bean
-// @RequiredArgsConstructor to create a constructor with all required fields (e.g. final fields)
+// @RequiredArgsConstructor Lombok annotation that generates a constructor with all required fields.
 
 // <<Outer Class>>
 @Service

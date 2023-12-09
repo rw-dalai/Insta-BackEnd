@@ -4,6 +4,7 @@ import static com.example.insta.foundation.AssertUtil.isValidEmail;
 import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
 
 import com.example.insta.domain.BaseEntity;
+import com.example.insta.security.PasswordService.EncodedPassword;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.PersistenceCreator;
@@ -31,6 +32,7 @@ public class User extends BaseEntity<String> {
   @Indexed(unique = true)
   private String email;
 
+  // @JsonIgnore
   private String password;
 
   // What is the user allowed to do
@@ -56,13 +58,13 @@ public class User extends BaseEntity<String> {
   }
 
   // Constructor for us developers to use when creating a new user in memory.
-  // public User(String email, EncodedPassword password, Role role, Profile profile) {
-  public User(String email, String password, Role role, Profile profile) {
+  public User(String email, EncodedPassword password, Role role, Profile profile) {
+    //  public User(String email, String password, Role role, Profile profile) {
     super(generateUUIDv4());
 
     this.email = isValidEmail(email, "email");
     // this.password = password.getEncodedPassword();
-    this.password = password;
+    this.password = password.getEncodedPassword();
     this.role = role;
     this.profile = profile;
     this.social = new Social();

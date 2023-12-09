@@ -80,10 +80,10 @@ import org.springframework.web.bind.annotation.*;
 
 // Restful Url Design
 // VERB        URI
-// GET        /api/todo          fetch all todos
+// GET        /api/todo/         fetch all todos
 // GET        /api/todo/{123}    fetch specific todo
-// POST       /api/todo          create todo
-// PUT        /api/todo/{123}    update a specific todo
+// POST       /api/todo/         create todo
+// PUT        /api/todo/{123}    update/replaces a specific todo
 // DELETE     /api/todo/{123}    deletes a specific todo
 
 // DTO Data Transfer Object

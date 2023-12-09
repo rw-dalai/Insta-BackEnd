@@ -1,5 +1,8 @@
 package com.example.insta.service;
 
+import static com.example.insta.domain.user.Role.USER;
+
+import com.example.insta.domain.user.Profile;
 import com.example.insta.domain.user.User;
 import com.example.insta.email.EmailService;
 import com.example.insta.persistence.UserRepository;
@@ -10,6 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+// Annotations used?
+// --------------------------------------------------------------------------------------------
+// @Service to mark this class as a Spring service
+// @RequiredArgsConstructor Lombok annotation that generates a constructor with all required fields.
+
 @Service
 @RequiredArgsConstructor
 public class UserRegistrationService {
@@ -19,26 +27,36 @@ public class UserRegistrationService {
   private final EmailService emailService;
   private final UserRepository userRepository;
 
-  //    public void register(String email, String password)
+  // TODO Edge Case
+  // 1. Attempt:
+  // User A registers: wenz@spengergassse.at
+  // User does not exist
+  // User A receives Email: /api/register/verify?userId=123&tokenId=456
+  // User A does not click on the email verification link
+
+  // 2. Attempt:
+  // User A registers again: wenz@spengergasse.at
+  // User A exists, but not verified yet
+
   public User register(UserRegistrationCommand command) {
-    // Logging
+    LOGGER.info("User registration with email {}", command.email());
 
     // 1. Check if email is already taken
-    // UserRepository.existsByEmail -> true/false
-    // -> true -> Exception
+    if (userRepository.existsByEmail(command.email()))
+      throw new RuntimeException("Email already taken: " + command.email());
 
     // 2. Check password strength / hash password
-    // PasswordService.encode -> EncodedPassword
+    var encodedPassword = passwordService.encode(command.password());
 
-    // 3. Instantiate a user (with account disabled!)
-    // new User(..)
+    // 3. Instantiate/save user (with account disabled!) in DB
+    var profile = new Profile(command.firstName(), command.lastName());
+    var user = new User(command.email(), encodedPassword, USER, profile);
+    var savedUser = userRepository.save(user);
 
-    // 4. Send Email
-    // EmailService.sendVerificationEmail(user)
+    // 4. Send Email (possibly asynchronous, it means in the background)
+    emailService.sendVerificationEmail(savedUser);
 
-    // 5. Save user into the Database
-    // UserRepository.save(..)
-
-    return null;
+    LOGGER.info("User registration with email {} successful", command.email());
+    return savedUser;
   }
 }

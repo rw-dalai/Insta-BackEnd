@@ -7,6 +7,7 @@ import com.example.insta.domain.user.User;
 import com.example.insta.email.EmailService;
 import com.example.insta.persistence.UserRepository;
 import com.example.insta.presentation.commands.Commands.UserRegistrationCommand;
+import com.example.insta.presentation.commands.Commands.UserVerificationCommand;
 import com.example.insta.security.PasswordService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -58,5 +59,35 @@ public class UserRegistrationService {
 
     LOGGER.info("User registration with email {} successful", command.email());
     return savedUser;
+  }
+
+  // public void verify(String userId, String tokenId)
+  public void verify(UserVerificationCommand command) {
+    LOGGER.info("User verification with id {} and token {}", command.userId(), command.tokenId());
+
+    User user =
+        userRepository
+            .findById(command.userId())
+            .orElseThrow(
+                () -> new IllegalArgumentException("User not found with id" + command.userId()));
+
+    user.getAccount().verifyToken(command.tokenId());
+    user.getAccount().setEnabled(true);
+    userRepository.save(user);
+
+    LOGGER.info(
+        "User verification with id {} and token {} successfully",
+        command.userId(),
+        command.tokenId());
+
+    // Functional / Declarative Solution
+    // Optional<User> userOptional = userRepository.findById(command.userId());
+    // User user = userOptional.orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    // Imperative Solution
+    // if (user.isEmpty()) {
+    //  throw new IllegalArgumentException("User not found");
+    // ...
+    // }
   }
 }

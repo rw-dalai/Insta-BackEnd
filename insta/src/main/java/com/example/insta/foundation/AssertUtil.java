@@ -31,6 +31,7 @@ public abstract class AssertUtil {
   private static final String emailPattern = "^(.+)@(\\S+)$";
 
   private static final String isNotNullMsg = "%s must not be null";
+  private static final String isNotEquals = "%s does not equal %s";
   private static final String isValidEmailMsg = "%s must be a valid email address";
   private static final String hasMinTextMsg = "%s must be more or equal %d character";
   private static final String hasMaxTextMsg = "%s must be less or equal %d character";
@@ -158,5 +159,9 @@ public abstract class AssertUtil {
       hasMaxSize(c, max, name);
     }
     return c;
+  }
+
+  public static void isTrue(boolean expression, String msg) {
+    Assert.isTrue(expression, () -> msg);
   }
 }

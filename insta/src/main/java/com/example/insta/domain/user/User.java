@@ -5,6 +5,7 @@ import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
 
 import com.example.insta.domain.BaseEntity;
 import com.example.insta.security.PasswordService.EncodedPassword;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.PersistenceCreator;
@@ -53,6 +54,7 @@ public class User extends BaseEntity<String> {
   // Spring Data uses reflection to create an instance of this class.
   // https://www.youtube.com/watch?v=bhhMJSKNCQY
   @PersistenceCreator
+  @JsonCreator
   protected User(String id) {
     super(id);
   }

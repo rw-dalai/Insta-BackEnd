@@ -35,7 +35,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 
 // Test Naming Conventions?
 // --------------------------------------------------------------------------------------------
-// method_shouldXXX_whenXXX
+// SUT_shouldXXX_whenXXX
 // https://matheus.ro/2017/09/24/unit-test-naming-convention/
 
 // What is a Test Fixture?

@@ -32,7 +32,7 @@ public class EmailService {
   @Value("${app.domain}")
   private String domain;
 
-  private final String VERIFICATION_LINK = "%s/api/registration/verify/userId=%s&tokenId=%s";
+  private final String VERIFICATION_LINK = "%s/api/registration/token?userId=%s&tokenId=%s";
 
   // private final JavaMailSenderImpl mailSender;
   // private final LoggerMailSenderImpl mailSender;

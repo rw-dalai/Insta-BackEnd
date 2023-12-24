@@ -4,6 +4,8 @@ import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -75,6 +77,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PasswordService {
+  private final Logger LOGGER = LoggerFactory.getLogger(PasswordService.class);
+
   public static final int ZXCVBN_STRENGTH_THRESHOLD = 3;
 
   private final Zxcvbn zxcvbn = new Zxcvbn();
@@ -106,6 +110,9 @@ public class PasswordService {
 
     // 2. Password hashing
     String encodePassword = passwordEncoder.encode(rawPassword);
+
+    // TODO Just for testing, never ever log sensitive data !
+    LOGGER.debug("Encoded Password `{}`", encodePassword);
 
     // 3. Return custom type
     return new EncodedPassword(encodePassword);

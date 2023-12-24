@@ -2,6 +2,8 @@ package com.example.insta.domain.user;
 
 import static com.example.insta.foundation.AssertUtil.hasMaxText;
 
+import lombok.Getter;
+
 /**
  * Profile of a user.
  *
@@ -9,6 +11,7 @@ import static com.example.insta.foundation.AssertUtil.hasMaxText;
  */
 
 // This class in inlined in User.
+@Getter
 public class Profile {
 
   // private Address address;

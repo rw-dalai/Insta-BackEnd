@@ -1,7 +1,9 @@
 package com.example.insta.domain.user;
 
+import com.example.insta.foundation.AssertUtil;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Account of a user.
@@ -16,9 +18,14 @@ import lombok.Getter;
 // This class in inlined in User.
 @Getter
 public class Account {
-  private boolean enabled = false;
-  private String tokenId = UUID.randomUUID().toString();
-  // private EmailVerificationToken verificationToken;
+  @Setter private boolean enabled = false; // false -> true
 
-  // TODO: Handle verificationToken
+  private String tokenId = UUID.randomUUID().toString(); // UUID -> null
+
+  public void verifyToken(String tokenId) {
+    AssertUtil.isNotNull(this.tokenId, "tokenId");
+    AssertUtil.isTrue(this.tokenId.equals(tokenId), "Tokens do not match");
+
+    this.tokenId = null;
+  }
 }

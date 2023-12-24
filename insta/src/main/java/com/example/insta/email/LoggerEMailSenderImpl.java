@@ -26,13 +26,13 @@ public class LoggerEMailSenderImpl implements EMailSender {
   private final Logger LOGGER = LoggerFactory.getLogger(LoggerEMailSenderImpl.class);
 
   public static final String LOG_EMAIL_INFO =
-      "Logging email with LoggerMailSenderImpl to \nRECIPIENT: {}";
+      "Logging email with LoggerMailSenderImpl to RECIPIENT: {}";
 
-  public static final String LOG_EMAIL_BODY = "RECIPIENT: {}\nSUBJECT: {}\nBODY: {}";
+  public static final String LOG_EMAIL_BODY = "RECIPIENT: {} SUBJECT: {} BODY: {}";
 
   @Override
   public void sendMail(EmailDTO emailDTO) {
-    LOGGER.info(LOG_EMAIL_INFO, emailDTO.recipient());
+    // LOGGER.info(LOG_EMAIL_INFO, emailDTO.recipient());
 
     LOGGER.info(LOG_EMAIL_BODY, emailDTO.recipient(), emailDTO.subject(), emailDTO.body());
   }

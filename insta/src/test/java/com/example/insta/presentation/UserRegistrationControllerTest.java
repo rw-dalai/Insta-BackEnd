@@ -15,6 +15,6 @@ public class UserRegistrationControllerTest extends AbstractControllerTest {
 
     // Then
     assertThat(response.getStatusCode(), equalTo(201));
-    // use jsonPath to inspect the response assertThat(..)
+    // TODO inspect User Json response with JsonPath
   }
 }

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class UserRegistrationService {
   private final Logger LOGGER = LoggerFactory.getLogger(UserRegistrationService.class);
 
+  private final UserQueryService userQueryService;
   private final PasswordService passwordService;
   private final EmailService emailService;
   private final UserRepository userRepository;
@@ -42,9 +43,8 @@ public class UserRegistrationService {
   public User register(UserRegistrationCommand command) {
     LOGGER.info("User registration with email {}", command.email());
 
-    // 1. Check if email is already taken
-    if (userRepository.existsByEmail(command.email()))
-      throw new RuntimeException("Email already taken: " + command.email());
+    // 1. Check if email is not taken if not throw exception
+    userQueryService.checkEmailNotTaken(command.email());
 
     // 2. Check password strength / hash password
     var encodedPassword = passwordService.encode(command.password());
@@ -61,33 +61,16 @@ public class UserRegistrationService {
     return savedUser;
   }
 
-  // public void verify(String userId, String tokenId)
   public void verify(UserVerificationCommand command) {
-    LOGGER.info("User verification with id {} and token {}", command.userId(), command.tokenId());
+    LOGGER.info("User account verification with id {}", command.userId());
 
-    User user =
-        userRepository
-            .findById(command.userId())
-            .orElseThrow(
-                () -> new IllegalArgumentException("User not found with id" + command.userId()));
+    // Retrieve user if not throw exception
+    User user = userQueryService.findById(command.userId());
 
     user.getAccount().verifyToken(command.tokenId());
     user.getAccount().setEnabled(true);
     userRepository.save(user);
 
-    LOGGER.info(
-        "User verification with id {} and token {} successfully",
-        command.userId(),
-        command.tokenId());
-
-    // Functional / Declarative Solution
-    // Optional<User> userOptional = userRepository.findById(command.userId());
-    // User user = userOptional.orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-    // Imperative Solution
-    // if (user.isEmpty()) {
-    //  throw new IllegalArgumentException("User not found");
-    // ...
-    // }
+    LOGGER.info("User verification with id {} successful", command.userId());
   }
 }

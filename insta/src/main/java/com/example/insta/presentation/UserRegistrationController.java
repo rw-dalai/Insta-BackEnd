@@ -19,16 +19,34 @@ import org.springframework.web.bind.annotation.*;
 // @RequiredArgsConstructor Lombok annotation that generates a constructor with all required fields.
 // @RequestBody marks a method parameter as the body of the HTTP request.
 
-// @RequestBody: Http Body (Json/XML) -> HTTP Message Converter (Jackson/Deserialize) -> Command
+// @RequestBody: Http Body (Json/XML) -> HTTP Message Converter -> Command Object
 // @PathVariable HTTP Path -> Method Parameters
 // @RequestParam HTTP Query Params -> Method Parameters
 // @ModelAttribute Bind any Request objects -> Command
 
 // HTTP Message Converter ?
 // --------------------------------------------------------------------------------------------
-// Default Message Converter = Jackson
+// In Spring, Jackson is often used as the default message converter for handling JSON.
+// It's known for its performance and flexibility in mapping Java objects to JSON and back.
 // HTTP Request => Deserialization (JSON -> Object)
 // HTTP Response => Serialization (Object -> JSON)
+
+// Jackson Serialization
+// --------------------------------------------------------------------------------------------
+// During serialization, Jackson by default uses the getters of a Java object to convert it into
+// JSON.
+// It looks for methods that follow the JavaBean naming convention
+// (e.g., getFieldName() for a field named fieldName).
+
+// Jackson Deserialization
+// --------------------------------------------------------------------------------------------
+// For deserialization, Jackson primarily uses the setters to map the JSON fields to the Java
+// object.
+// It looks for setter methods that follow the JavaBean naming convention
+// (e.g., setFieldName() for a field named fieldName).
+// If no setter is available, Jackson can use other strategies,
+// like direct field access or constructor-based deserialization,
+// depending on the configuration.
 
 @RestController
 @RequestMapping("/api/registration")

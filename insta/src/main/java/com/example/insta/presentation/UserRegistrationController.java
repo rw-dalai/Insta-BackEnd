@@ -33,15 +33,13 @@ import org.springframework.web.bind.annotation.*;
 
 // Jackson Serialization
 // --------------------------------------------------------------------------------------------
-// During serialization, Jackson by default uses the getters of a Java object to convert it into
-// JSON.
+// During serialization, Jackson uses the getters of the Java object to convert it into JSON.
 // It looks for methods that follow the JavaBean naming convention
 // (e.g., getFieldName() for a field named fieldName).
 
 // Jackson Deserialization
 // --------------------------------------------------------------------------------------------
-// For deserialization, Jackson primarily uses the setters to map the JSON fields to the Java
-// object.
+// For deserialization, Jackson uses the setters to convert the JSON to the Java object.
 // It looks for setter methods that follow the JavaBean naming convention
 // (e.g., setFieldName() for a field named fieldName).
 // If no setter is available, Jackson can use other strategies,

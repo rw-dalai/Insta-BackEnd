@@ -12,6 +12,13 @@ import java.util.Base64;
 import java.util.UUID;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+// Purpose of this class?
+// --------------------------------------------------------------------------------------------
+// This class contains utility methods for tokens.
+// It contains methods to generate and verify tokens.
+// It should only be used as a static utility class.
+// It is used by EmailVerificationToken. See EmailVerificationToken class.
+
 // Data types used?
 // --------------------------------------------------------------------------------------------
 // String in UTF-8      (all character sets in this world)

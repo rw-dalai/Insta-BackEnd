@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.*;
 // --------------------------------------------------------------------------------------------
 // In Spring, Jackson is often used as the default message converter for handling JSON.
 // It's known for its performance and flexibility in mapping Java objects to JSON and back.
-// HTTP Request => Deserialization (JSON -> Object)
 // HTTP Response => Serialization (Object -> JSON)
+// HTTP Request => Deserialization (JSON -> Object)
 
 // Jackson Serialization
 // --------------------------------------------------------------------------------------------

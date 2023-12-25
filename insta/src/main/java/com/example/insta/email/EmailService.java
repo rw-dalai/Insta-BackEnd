@@ -44,7 +44,7 @@ public class EmailService {
         new EmailDTO(
             user.getEmail(),
             getVerificationSubject(),
-            getVerificationBody(user, user.getAccount().getTokenId())));
+            getVerificationBody(user, user.getAccount().getEmailToVerify())));
   }
 
   public String getVerificationSubject() {

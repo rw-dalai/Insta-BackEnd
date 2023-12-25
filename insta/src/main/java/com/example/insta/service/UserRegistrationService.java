@@ -52,6 +52,7 @@ public class UserRegistrationService {
     // 3. Instantiate/save user (with account disabled!) in DB
     var profile = new Profile(command.firstName(), command.lastName());
     var user = new User(command.email(), encodedPassword, USER, profile);
+    user.getAccount().generateEmailTokenFor(command.email());
     var savedUser = userRepository.save(user);
 
     // 4. Send Email (possibly asynchronous, it means in the background)
@@ -67,7 +68,7 @@ public class UserRegistrationService {
     // Retrieve user if not throw exception
     User user = userQueryService.findById(command.userId());
 
-    user.getAccount().verifyToken(command.tokenId());
+    user.getAccount().verifyEmailTokenFor(command.tokenId());
     user.getAccount().setEnabled(true);
     userRepository.save(user);
 

@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// Purpose of this class?
+// --------------------------------------------------------------------------------------------
+// This class is a Spring controller class for registering users.
+// It handles HTTP requests and returns HTTP responses.
+
 // Annotations used?
 // --------------------------------------------------------------------------------------------
 // @RestController marks this class that handles HTTP requests and returns JSON responses.

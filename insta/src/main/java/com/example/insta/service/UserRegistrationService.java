@@ -14,6 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+// Purpose of this class?
+// --------------------------------------------------------------------------------------------
+// This class is a domain service class for registering users.
+
 // Annotations used?
 // --------------------------------------------------------------------------------------------
 // @Service to mark this class as a Spring service
@@ -53,6 +57,7 @@ public class UserRegistrationService {
     var profile = new Profile(command.firstName(), command.lastName());
     var user = new User(command.email(), encodedPassword, USER, profile);
     user.getAccount().generateEmailTokenFor(command.email());
+    // user.getAccount().setEnabled(false); // its already false
     var savedUser = userRepository.save(user);
 
     // 4. Send Email (possibly asynchronous, it means in the background)

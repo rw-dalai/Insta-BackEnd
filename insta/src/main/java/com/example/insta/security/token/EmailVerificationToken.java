@@ -9,8 +9,7 @@ import lombok.experimental.SuperBuilder;
 // Purpose of this class?
 // --------------------------------------------------------------------------------------------
 // This class represents an email verification token.
-// It contains the email address to verify.
-// It is a subclass of Token.
+// It is used when a user needs to verify their email address.
 
 // Annotations used?
 // --------------------------------------------------------------------------------------------
@@ -51,10 +50,10 @@ public class EmailVerificationToken extends Token {
   private final String emailToVerify;
 
   // DTO (Data Transfer Object)
-  public record GenerateEmailTokenResult(EmailVerificationToken emailToken, String tokenId) {}
+  public record GeneratedEmailTokenResult(EmailVerificationToken emailToken, String tokenId) {}
 
   // Static factory method
-  public static GenerateEmailTokenResult generateEmailToken(String email, Instant expiresAt) {
+  public static GeneratedEmailTokenResult generateEmailToken(String email, Instant expiresAt) {
     // Generate a secure 128-bit token as UUIDv4 and hash it with Keccak-256.
     var tokenValues = generateToken();
 
@@ -68,6 +67,6 @@ public class EmailVerificationToken extends Token {
             .build();
 
     // Return the DTO
-    return new GenerateEmailTokenResult(token, tokenValues.tokenId());
+    return new GeneratedEmailTokenResult(token, tokenValues.tokenId());
   }
 }

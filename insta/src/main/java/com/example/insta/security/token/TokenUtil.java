@@ -14,16 +14,25 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 // Purpose of this class?
 // --------------------------------------------------------------------------------------------
-// This class contains utility methods for tokens.
-// It contains methods to generate and verify tokens.
-// It should only be used as a static utility class.
-// It is used by EmailVerificationToken. See EmailVerificationToken class.
+// It contains utility methods to generate and verify tokens.
+// It is used by EmailVerificationToken. See `EmailVerificationToken` class.
 
 // Data types used?
 // --------------------------------------------------------------------------------------------
-// String in UTF-8      (all character sets in this world)
+// String as UTF-8      (all character sets in this world)
 // byte[]               (a sequence/array of bytes to story any data in raw format)
-// String in Base64     (only A–Za–z0–9+/=)
+// String as Base64     (only A–Za–z0–9+/=)
+
+// Why do we need Base64?
+// --------------------------------------------------------------------------------------------
+// Base64 is preferred over UTF-8 for encoding binary data like cryptographic keys, tokens, etc.
+// due to its reliability in handling binary data, compatibility with various systems,
+// and assurance of data integrity.
+// UTF-8, designed primarily for text encoding, can result in data loss or corruption
+// when used for binary data, as it may include byte sequences representing invalid or
+// control characters.
+// Base64, on the other hand, safely encodes binary data into a limited set of ASCII characters,
+// making it suitable for transmission and storage in diverse environments.
 
 // Bouncy Castle?
 // --------------------------------------------------------------------------------------------
@@ -42,7 +51,7 @@ public abstract class TokenUtil {
 
   // Static initializer block ------------------------------------------------
   static {
-    // This block is executed when the class is loaded.
+    // This block is executed when the class is loaded by the JVM (Java Virtual Machine.
     // Register Bouncy Castle as a security provider if it is not already registered.
     if (Security.getProvider(PROVIDER_NAME) == null)
       Security.addProvider(new BouncyCastleProvider());
@@ -63,7 +72,7 @@ public abstract class TokenUtil {
    * @throws RuntimeException if the security provider is not available
    */
   protected static GeneratedTokenValues generateToken() {
-    // 1. Generate 128-bit cryptographic random value as UUIDv4 called `tokenId`
+    // 1. Generate 122-bit cryptographic random value (128-bit in total) as UUIDv4.
     String tokenId = UUID.randomUUID().toString();
 
     // 2. Hash the tokenId with Keccak-256
@@ -92,6 +101,12 @@ public abstract class TokenUtil {
     isTrue(areHashesEqual(token, tokenId), "token do not match");
   }
 
+  /**
+   * Check if the token is not expired.
+   *
+   * @param token the token to verify e.g. EmailVerificationToken, PasswordResetToken
+   * @return true if the token is not expired
+   */
   private static boolean isTokenNonExpired(Token token) {
     // actual < expired
     return Instant.now().isBefore(token.getExpiresAt());

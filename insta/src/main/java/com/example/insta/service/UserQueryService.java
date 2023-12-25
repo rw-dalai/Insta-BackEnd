@@ -5,6 +5,10 @@ import com.example.insta.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+// Purpose of this class?
+// --------------------------------------------------------------------------------------------
+// This class is a helper class for retrieving users from the database.
+
 @Service
 @RequiredArgsConstructor
 public class UserQueryService {

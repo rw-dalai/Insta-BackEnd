@@ -20,7 +20,7 @@ public record Media(
     String id,
     Instant createdAt,
     String filename,
-    String mimeType,
+    String mimeType, // e.g. image/jpeg, image/png, video/mp4
     long size,
     int width,
     int height) {

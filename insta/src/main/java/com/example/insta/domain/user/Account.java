@@ -40,7 +40,6 @@ public class Account {
   //  public static final int EMAIL_VERIFICATION_DURATION = 24;
   public static final Duration EMAIL_VERIFICATION_DURATION = Duration.ofHours(24);
 
-
   /**
    * Generate an email token for the given email address.
    *
@@ -56,7 +55,7 @@ public class Account {
     // Save the token in the account for later verification.
     this.emailToken = token.emailToken();
 
-    // Return the tokenId in clear text to send it to the user via email.
+    // Return the tokenId in clear text.
     return token.tokenId();
   }
 
@@ -73,13 +72,13 @@ public class Account {
 
     // Verify the token by checking if it is not expired and if the hashes match.
     // If verification fails, an IllegalArgumentException is thrown.
-    // TODO We need our own exception type here. e.g. (TokenVerificationException, EmailVerificationException)
+    // TODO We need our own exception type here. e.g. (TokenVerificationException)
     verifyToken(emailToken, tokenId);
 
     // Get the email from the token.
     String verifiedEmail = emailToken.getEmailToVerify();
 
-    // Set the emailToken to null to prevent reuse.
+    // Set the email token to null to prevent reuse.
     this.emailToken = null;
 
     // Return the verified email.
@@ -87,9 +86,8 @@ public class Account {
   }
 
   /**
-   * Get the email address to verify.
-   * Used by the EmailService to send the verification email.
-   * See EmailService.sendVerificationEmail(..).
+   * Get the email address to verify. Used by the EmailService to send the verification email. See
+   * EmailService.sendVerificationEmail(..).
    *
    * @return the email address to verify
    * @throws IllegalArgumentException if the token is null

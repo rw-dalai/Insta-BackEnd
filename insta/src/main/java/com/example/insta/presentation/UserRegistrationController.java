@@ -1,6 +1,6 @@
 package com.example.insta.presentation;
 
-import static com.example.insta.presentation.commands.Commands.*;
+import static com.example.insta.presentation.commands.Commands.UserVerificationCommand;
 
 import com.example.insta.domain.user.User;
 import com.example.insta.presentation.commands.Commands.UserRegistrationCommand;
@@ -56,7 +56,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserRegistrationController {
   private final Logger LOGGER = LoggerFactory.getLogger(UserRegistrationController.class);
-
   private final UserRegistrationService userRegistrationService;
 
   // HTTP Request:
@@ -75,7 +74,6 @@ public class UserRegistrationController {
   public ResponseEntity<User> register(@RequestBody UserRegistrationCommand command) {
     // TODO Just for testing, never ever log sensitive data !
     LOGGER.debug("User registration controller#register {}", command);
-
     var userRegistered = userRegistrationService.register(command);
 
     // Create Location Header
@@ -91,14 +89,26 @@ public class UserRegistrationController {
   // HTTP Response:
   // HTTP 1.1 OK
 
-  // public void verify(@PathVariable String userId)
-  // public void verify(@RequestParam String userId, @RequestParam String tokenId)
+  // PATH VERSION -----------------------------------------------------
+  // Example: /api/registration/token/123/user/456
+  // @GetMapping("/token/{tokenId}/user/{userId}")
+  // public void verify(@PathVariable String tokenId, @PathVariable String userId) {
+  //   var command = new UserVerificationCommand(userId, tokenId);
+  //   userRegistrationService.verify(userId, tokenId);
+  // }
+
+  // REQUEST PARAM VERSION --------------------------------------------
+  // Example: /api/registration/token?tokenId=456&userId=123
+  // @GetMapping("/token")
+  // public void verify(@RequestParam String tokenId, @RequestParam String userId) {
+  //   var command = new UserVerificationCommand(userId, tokenId);
+  //   userRegistrationService.verify(userId, tokenId);
+  // }
+
+  // MODEl ATTRIBUTE VERSION ------------------------------------------
   @GetMapping("/token")
   public void verify(@ModelAttribute UserVerificationCommand command) {
     LOGGER.debug("User registration controller#verify {}", command);
-
-    // var command = new UserVerificationCommand(userId, tokenId);
-    // userRegistrationService.verify(userId, tokenId);
     userRegistrationService.verify(command);
   }
 }

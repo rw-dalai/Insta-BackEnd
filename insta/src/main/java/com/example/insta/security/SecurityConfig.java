@@ -62,8 +62,7 @@ public class SecurityConfig {
   }
 
   //  @Bean
-  //  public PasswordService passwordService(PasswordEncoder passwordEncoder)
-  //  {
+  //  public PasswordService passwordService(PasswordEncoder passwordEncoder) {
   //    return new PasswordService(passwordEncoder);
   //  }
 }

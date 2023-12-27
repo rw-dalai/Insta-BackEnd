@@ -161,6 +161,7 @@ public abstract class AssertUtil {
     return c;
   }
 
+  /** Assert that the given expression is true. */
   public static void isTrue(boolean expression, String msg) {
     Assert.isTrue(expression, () -> msg);
   }

@@ -23,8 +23,7 @@ public class Message extends BaseEntity<String> {
   // Indexes speed up queries in MongoDB by providing efficient access to data.
   // https://stackoverflow.com/questions/1108/how-does-database-indexing-work
   // What is the id messenger entry that this message belongs to?
-  @Indexed(unique = true)
-  private String messengerEntryId;
+  @Indexed private String messengerEntryId;
 
   // Who sent this message?
   private String senderId;

@@ -20,9 +20,9 @@ import org.springframework.lang.Nullable;
 @ToString
 public class Message extends BaseEntity<String> {
 
+  // What is the id messenger entry that this message belongs to?
   // Indexes speed up queries in MongoDB by providing efficient access to data.
   // https://stackoverflow.com/questions/1108/how-does-database-indexing-work
-  // What is the id messenger entry that this message belongs to?
   @Indexed private String messengerEntryId;
 
   // Who sent this message?

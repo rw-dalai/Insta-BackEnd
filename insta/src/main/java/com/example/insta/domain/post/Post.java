@@ -28,7 +28,6 @@ public class Post extends BaseEntity<String> {
   // Who created this post?
   // Indexes speed up queries in MongoDB by providing efficient access to data.
   // https://stackoverflow.com/questions/1108/how-does-database-indexing-work
-  // do not use unique indexes here
   @Indexed private String userId;
 
   // The text of the post.

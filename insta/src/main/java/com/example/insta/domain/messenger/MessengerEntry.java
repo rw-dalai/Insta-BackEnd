@@ -8,6 +8,7 @@ import com.example.insta.domain.BaseEntity;
 import java.util.Set;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 /** A conversation between two or more users. */
 
@@ -20,7 +21,9 @@ public class MessengerEntry extends BaseEntity<String> {
   private String creatorId;
 
   // Who is in this conversation?
-  private Set<String> participantIds;
+  // A multikey index in MongoDB is designed for indexing fields that hold array values.
+  // https://www.mongodb.com/docs/manual/core/indexes/index-types/index-multikey/
+  @Indexed private Set<String> participantIds;
 
   // What is the description of this conversation?
   // private String description;

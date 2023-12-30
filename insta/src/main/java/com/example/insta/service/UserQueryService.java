@@ -16,13 +16,13 @@ public class UserQueryService {
   private final UserRepository userRepository;
 
   public User findById(String userId) {
+    // Find user by id or throw exception
     return userRepository.findById(userId).orElseThrow(() -> ofUserNotFound(userId));
   }
 
   public void checkEmailNotTaken(String email) {
-    if (userRepository.existsByEmail(email)) {
-      throw ofEmailTaken(email);
-    }
+    // Check if email is not taken if not throw exception
+    if (userRepository.existsByEmail(email)) throw ofEmailTaken(email);
   }
 
   // TODO We need own exceptions; we do it when we start with Exception Handling

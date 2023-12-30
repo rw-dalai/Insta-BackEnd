@@ -71,6 +71,7 @@ public abstract class TokenUtil {
    * @throws RuntimeException if the hashing algorithm is not available
    * @throws RuntimeException if the security provider is not available
    */
+  // TODO Strings are bad for security. Will be explain later.
   protected static GeneratedTokenValues generateToken() {
     // 1. Generate 122-bit cryptographic random value (128-bit in total) as UUIDv4.
     String tokenId = UUID.randomUUID().toString();
@@ -172,4 +173,24 @@ public abstract class TokenUtil {
       throw new RuntimeException("Hashing toking failed", e);
     }
   }
+
+  /*
+  // TODO We will use this later when we explain why Strings are bad for security.
+  // TODO We need to use SecureString instead of String.
+  // https://github.com/OWASP/passfault/blob/master/core/src/main/java/org/owasp/passfault/impl/SecureString.java
+  // UUID <-> byte[]
+  public static UUID asUuid(byte[] bytes) {
+    ByteBuffer bb = ByteBuffer.wrap(bytes);
+    long firstLong = bb.getLong();
+    long secondLong = bb.getLong();
+    return new UUID(firstLong, secondLong);
+  }
+
+  public static byte[] asBytes(UUID uuid) {
+    ByteBuffer bb = ByteBuffer.allocate(16);
+    bb.putLong(uuid.getMostSignificantBits());
+    bb.putLong(uuid.getLeastSignificantBits());
+    return bb.array();
+  }
+   */
 }

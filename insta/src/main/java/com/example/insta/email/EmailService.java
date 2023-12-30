@@ -29,29 +29,42 @@ import org.springframework.stereotype.Service;
 public class EmailService {
   private final EMailSender mailSender;
 
-  @Value("${app.domain}")
-  private String domain;
-
-  private final String VERIFICATION_LINK = "%s/api/registration/token?userId=%s&tokenId=%s";
-
   // private final JavaMailSenderImpl mailSender;
   // private final LoggerMailSenderImpl mailSender;
 
+  // The protocol of the server where the application is running.
+  @Value("${app.public.protocol:http}")
+  private String protocol;
+
+  // The domain name of the server where the application is running.
+  @Value("${app.public.domain:localhost}")
+  private String domain;
+
+  // The port of the server where the application is running.
+  @Value("${app.public.port:8080}")
+  private String port;
+
+  // The verification link that is sent to the user which he has to click to verify his email.
+  private final String VERIFICATION_LINK = "%s://%s:%s/api/registration/token?userId=%s&tokenId=%s";
+
+  // Send Verification Email
+  // --------------------------------------------------------------------------------------------
   // @Async
   // public void sendVerificationEmail(User user, String tokenId) {
   public void sendVerificationEmail(User user) {
-    mailSender.sendMail(
-        new EmailDTO(
-            user.getEmail(),
-            getVerificationSubject(),
-            getVerificationBody(user, user.getAccount().getEmailToVerify())));
+    // We build the EmailDTO object and send it to the mailSender.
+    var receiver = user.getAccount().getVerificationEmail();
+    var subject = getVerificationEmailSubject();
+    var body = getVerificationEmailBody(user);
+    mailSender.sendMail(new EmailDTO(receiver, subject, body));
   }
 
-  public String getVerificationSubject() {
+  public String getVerificationEmailSubject() {
     return "Please verify your email";
   }
 
-  public String getVerificationBody(User user, String tokenId) {
-    return String.format(VERIFICATION_LINK, domain, user.getId(), tokenId);
+  public String getVerificationEmailBody(User user) {
+    String token = user.getAccount().getVerificationEmailToken();
+    return String.format(VERIFICATION_LINK, protocol, domain, port, user.getId(), token);
   }
 }

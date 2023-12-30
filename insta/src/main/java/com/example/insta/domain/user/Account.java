@@ -1,11 +1,11 @@
 package com.example.insta.domain.user;
 
 import static com.example.insta.foundation.AssertUtil.isNotNull;
-import static com.example.insta.security.token.EmailVerificationToken.generateEmailToken;
 import static com.example.insta.security.token.TokenUtil.verifyToken;
+import static com.example.insta.security.token.VerificationEmailToken.generateEmailToken;
 import static java.time.Instant.now;
 
-import com.example.insta.security.token.EmailVerificationToken;
+import com.example.insta.security.token.VerificationEmailToken;
 import java.time.Duration;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +35,7 @@ import lombok.Setter;
 public class Account {
   @Setter private boolean enabled = false; // false -> true
 
-  private EmailVerificationToken emailToken;
+  private VerificationEmailToken emailToken;
 
   //  public static final int EMAIL_VERIFICATION_DURATION = 24;
   public static final Duration EMAIL_VERIFICATION_DURATION = Duration.ofHours(24);
@@ -46,17 +46,14 @@ public class Account {
    * @param email the email address to generate the token for
    * @return the tokenId in clear text
    */
-  public String generateEmailTokenFor(String email) {
+  public void generateEmailTokenFor(String email) {
     isNotNull(email, "email");
 
     // var token = generateEmailToken(email, now().plus(24, ChronoUnit.DAYS));
     var token = generateEmailToken(email, now().plus(EMAIL_VERIFICATION_DURATION));
 
     // Save the token in the account for later verification.
-    this.emailToken = token.emailToken();
-
-    // Return the tokenId in clear text.
-    return token.tokenId();
+    this.emailToken = token;
   }
 
   /**
@@ -76,7 +73,7 @@ public class Account {
     verifyToken(emailToken, tokenId);
 
     // Get the email from the token.
-    String verifiedEmail = emailToken.getEmailToVerify();
+    String verifiedEmail = emailToken.getVerificationEmail();
 
     // Set the email token to null to prevent reuse.
     this.emailToken = null;
@@ -92,10 +89,23 @@ public class Account {
    * @return the email address to verify
    * @throws IllegalArgumentException if the token is null
    */
-  public String getEmailToVerify() {
+  public String getVerificationEmail() {
     isNotNull(emailToken, "token");
 
-    return emailToken.getEmailToVerify();
+    return emailToken.getVerificationEmail();
+  }
+
+  /**
+   * Get the tokenId to verify. Used by the EmailService to send the verification email. See
+   * EmailService.sendVerificationEmail(..).
+   *
+   * @return the tokenId to verify
+   * @throws IllegalArgumentException if the token is null
+   */
+  public String getVerificationEmailToken() {
+    isNotNull(emailToken, "token");
+
+    return emailToken.getVerificationEmailToken();
   }
 }
 

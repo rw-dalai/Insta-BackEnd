@@ -5,6 +5,7 @@ import static com.example.insta.security.token.TokenUtil.generateToken;
 import java.time.Instant;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.Transient;
 
 // Purpose of this class?
 // --------------------------------------------------------------------------------------------
@@ -15,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 // --------------------------------------------------------------------------------------------
 // @SuperBuilder Lombok annotation that generates a builder with all fields from superclasses.
 // @Getter to generate getters for all fields
+// @Transient to tell Spring to not store this field in the database
 
 // What is the Builder Pattern?
 // --------------------------------------------------------------------------------------------
@@ -46,27 +48,24 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Getter
-public class EmailVerificationToken extends Token {
-  private final String emailToVerify;
+public class VerificationEmailToken extends Token {
+  private final String verificationEmail;
 
-  // DTO (Data Transfer Object)
-  public record GeneratedEmailTokenResult(EmailVerificationToken emailToken, String tokenId) {}
+  // TODO Strings are bad for security. Will be explain later.
+  @Transient private String verificationEmailToken;
 
   // Static factory method
-  public static GeneratedEmailTokenResult generateEmailToken(String email, Instant expiresAt) {
+  public static VerificationEmailToken generateEmailToken(String email, Instant expiresAt) {
     // Generate a secure 128-bit token as UUIDv4 and hash it with Keccak-256.
     var tokenValues = generateToken();
 
     // Build the token object with the builder design pattern
-    var token =
-        EmailVerificationToken.builder()
-            .encodedValue(tokenValues.hashedTokenIdBase64())
-            .createdAt(Instant.now())
-            .expiresAt(expiresAt)
-            .emailToVerify(email)
-            .build();
-
-    // Return the DTO
-    return new GeneratedEmailTokenResult(token, tokenValues.tokenId());
+    return VerificationEmailToken.builder()
+        .encodedValue(tokenValues.hashedTokenIdBase64())
+        .verificationEmail(email)
+        .verificationEmailToken(tokenValues.tokenId())
+        .createdAt(Instant.now())
+        .expiresAt(expiresAt)
+        .build();
   }
 }

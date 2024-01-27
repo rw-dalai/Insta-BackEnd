@@ -1,9 +1,15 @@
-package com.example.insta.security;
+package com.example.insta.security.web;
 
+import com.example.insta.domain.user.Role;
+import com.example.insta.persistence.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.SecurityFilterChain;
 
 // Inversion of Control (IoC)
 // --------------------------------------------------------------------------------------------
@@ -50,19 +56,85 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // @Configuration to tell Spring that this is a configuration class which contains beans (@Bean)
 // @Bean to tell Spring that this method returns a bean
 
+// AAA-Triad
+// Authentication
+// Authorization
+// Accounting
+
+// CIA-Triad
+// Confidentiality
+// Integrity
+// Availability
+
+// Authentication Mechanism
+// Basic Authentication
+// Cookie Based / Persistence Tokens
+
+// Auth2 / JWT
+// Passwordless Authentication (FIDO)
+// LDAP
+// OpenId
+
+// Credentials
+
+// GrantedAuthority
+// "Permission" or "Right"
+
+// Role
+// GrantedAuthority
+// ROLE_XXX
+// "ROLE_ADMIN"
+// "ROLE_USER"
+
+// 1. UserDetails (Interface)
+//   Represents a principal (user) for Spring Security
+//   GrantedAuthorities
+//   disabling: email is not verified, admin disables an account
+//   locking: number of failed login attempts
+
+// 2. UserDetailsService (Interface)
+//   To load user data from a specific source (database) during authentication.
+//   Returns a UserDetails to Spring Security
+
+// 3. Security Config
+//    Configure SecurityFilterChain
+
 @Configuration
-public class SecurityConfig {
+public class WebSecurityConfig {
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
-    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
-    // return new BCryptPasswordEncoder();
-    // return new Argon2PasswordEncoder();
+  public UserDetailsService userDetailsService(UserRepository userRepository) {
+    return new DaoUserDetailsService(userRepository);
   }
 
-  //  @Bean
-  //  public PasswordService passwordService(PasswordEncoder passwordEncoder) {
-  //    return new PasswordService(passwordEncoder);
-  //  }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    // AUTHENTICATION
+    http.httpBasic(Customizer.withDefaults());
+    http.formLogin(formLogin -> formLogin.disable());
+
+    // AUTHORIZATION
+    http.authorizeHttpRequests(
+        (authorize) ->
+            authorize
+                .requestMatchers("/api/registration/**")
+                .permitAll()
+                .requestMatchers("/api/user/**")
+                .hasRole(Role.USER.toString())
+                .anyRequest()
+                .authenticated());
+
+    // CSRF
+    http.csrf(csrf -> csrf.disable());
+
+    // CORS
+    http.cors(cors -> cors.disable());
+
+    // SESSIONS
+    http.sessionManagement(
+        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+    DefaultSecurityFilterChain filterChain = http.build();
+    return filterChain;
+  }
 }

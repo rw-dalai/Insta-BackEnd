@@ -5,7 +5,9 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.example.insta.security.PasswordService.EncodedPassword;
+import com.example.insta.security.password.PasswordEncoderConfig;
+import com.example.insta.security.password.PasswordService;
+import com.example.insta.security.password.PasswordService.EncodedPassword;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,7 +62,7 @@ import org.springframework.context.annotation.Import;
 
 // @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = {PasswordService.class})
-@Import(SecurityConfig.class)
+@Import(PasswordEncoderConfig.class)
 public class PasswordServiceTest {
   // Test Fixtures
   public static final String STRONG_PASSWORD = "alle meine 99 java entchen lieben C#";

@@ -1,4 +1,4 @@
-package com.example.insta.security;
+package com.example.insta.security.password;
 
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;

@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.Nullable;
 
 /** A message from one user in a messenger entry. */
@@ -18,6 +19,7 @@ import org.springframework.lang.Nullable;
 // We do not inline this class into MessengerEntry because it can grow out of bound.
 @Getter
 @ToString
+@Document(collection = "message")
 public class Message extends BaseEntity<String> {
 
   // What is the id messenger entry that this message belongs to?

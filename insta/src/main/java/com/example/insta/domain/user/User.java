@@ -4,8 +4,9 @@ import static com.example.insta.foundation.AssertUtil.isValidEmail;
 import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
 
 import com.example.insta.domain.BaseEntity;
-import com.example.insta.security.PasswordService.EncodedPassword;
+import com.example.insta.security.password.PasswordService.EncodedPassword;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.PersistenceCreator;
@@ -37,7 +38,8 @@ public class User extends BaseEntity<String> {
   private String password;
 
   // What is the user allowed to do
-  private Role role;
+  //  private Role role;
+  private List<Role> role;
 
   // The user's profile information
   private Profile profile;
@@ -65,7 +67,7 @@ public class User extends BaseEntity<String> {
 
     this.email = isValidEmail(email, "email");
     this.password = password.getEncodedPassword();
-    this.role = role;
+    this.role = List.of(role);
     this.profile = profile;
     this.social = new Social();
     this.account = new Account();

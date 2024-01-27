@@ -10,6 +10,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /** A comment from one user in a post. */
 
@@ -17,6 +18,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 // We do not inline this class into Post because it can grow out of bound.
 @Getter
 @ToString
+@Document(collection = "comment")
 public class Comment extends BaseEntity<String> {
 
   // Which post does this comment belong to?

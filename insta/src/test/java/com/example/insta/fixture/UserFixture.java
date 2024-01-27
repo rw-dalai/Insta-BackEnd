@@ -5,8 +5,8 @@ import static org.springframework.security.crypto.factory.PasswordEncoderFactori
 import com.example.insta.domain.user.Profile;
 import com.example.insta.domain.user.Role;
 import com.example.insta.domain.user.User;
-import com.example.insta.security.PasswordService;
-import com.example.insta.security.PasswordService.EncodedPassword;
+import com.example.insta.security.password.PasswordService;
+import com.example.insta.security.password.PasswordService.EncodedPassword;
 
 // What is a Test Fixture?
 // --------------------------------------------------------------------------------------------

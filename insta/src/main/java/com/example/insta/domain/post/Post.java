@@ -12,6 +12,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.Nullable;
 
 /**
@@ -24,6 +25,7 @@ import org.springframework.lang.Nullable;
 // We extend from BaseEntity because it's an own collection in MongoDB.
 @Getter
 @ToString
+@Document(collection = "post")
 public class Post extends BaseEntity<String> {
   // Who created this post?
   // Indexes speed up queries in MongoDB by providing efficient access to data.

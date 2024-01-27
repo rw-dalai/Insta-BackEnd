@@ -2,7 +2,6 @@ package com.example.insta;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 // What makes Spring so special?
 // --------------------------------------------------------------------------------------------
@@ -28,9 +27,9 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 // - @ComponentScan
 //   Tells Spring to scan for other components, configuration and services in our packages.
 
-// @SpringBootApplication(scanBasePackages = {"com.example.insta"})
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-// @SpringBootApplication
+//  @SpringBootApplication(scanBasePackages = {"com.example.insta"})
+// @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication
 public class InstaApplication {
   public static void main(String[] args) {
     // Starts the Spring application.

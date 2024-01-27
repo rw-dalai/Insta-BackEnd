@@ -9,6 +9,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /** A conversation between two or more users. */
 
@@ -16,6 +17,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 // We extend from BaseEntity because it's an own collection in MongoDB.
 @Getter
 @ToString
+@Document(collection = "messengerEntry")
 public class MessengerEntry extends BaseEntity<String> {
   // Who created this conversation?
   private String creatorId;

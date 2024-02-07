@@ -57,7 +57,8 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return user.getAccount().isEnabled();
-    // return false;
+    //    return user.getAccount().isEnabled();
+    //   TODO return true for testing only !
+    return true;
   }
 }

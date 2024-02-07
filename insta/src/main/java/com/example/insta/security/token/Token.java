@@ -1,6 +1,7 @@
 package com.example.insta.security.token;
 
 import java.time.Instant;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -65,6 +66,7 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Getter
+@AllArgsConstructor
 public abstract class Token {
   // value as string encoded in base64 and hashed with Keccak-256
   private final String encodedValue;

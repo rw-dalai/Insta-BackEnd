@@ -5,6 +5,7 @@ import static com.example.insta.security.token.TokenUtil.generateToken;
 import java.time.Instant;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.annotation.Transient;
 
 // Purpose of this class?
@@ -53,6 +54,13 @@ public class VerificationEmailToken extends Token {
 
   // TODO Strings are bad for security. Will be explain later.
   @Transient private String verificationEmailToken;
+
+  @PersistenceCreator
+  public VerificationEmailToken(
+      String verificationEmail, String encodedValue, Instant createdAt, Instant expiresAt) {
+    super(encodedValue, createdAt, expiresAt);
+    this.verificationEmail = verificationEmail;
+  }
 
   // Static factory method
   public static VerificationEmailToken generateEmailToken(String email, Instant expiresAt) {

@@ -2,10 +2,12 @@ package com.example.insta.security.web;
 
 import com.example.insta.domain.user.User;
 import java.util.Collection;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@ToString
 public class SecurityUser implements UserDetails {
   private static final String ROLE_PREFIX = "ROLE_";
 

@@ -15,9 +15,7 @@ public abstract class Commands {
       return email.trim().toLowerCase();
     }
   }
-  ;
 
   // --- Verification ---
   public record UserVerificationCommand(String userId, String tokenId) {}
-  ;
 }

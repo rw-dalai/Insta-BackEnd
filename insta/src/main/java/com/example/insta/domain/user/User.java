@@ -34,12 +34,11 @@ public class User extends BaseEntity<String> {
   @Indexed(unique = true)
   private String email;
 
-  // @JsonIgnore
   private String password;
 
   // What is the user allowed to do
   //  private Role role;
-  private List<Role> role;
+  private List<Role> roles;
 
   // The user's profile information
   private Profile profile;
@@ -67,7 +66,7 @@ public class User extends BaseEntity<String> {
 
     this.email = isValidEmail(email, "email");
     this.password = password.getEncodedPassword();
-    this.role = List.of(role);
+    this.roles = List.of(role);
     this.profile = profile;
     this.social = new Social();
     this.account = new Account();

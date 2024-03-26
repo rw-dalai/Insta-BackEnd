@@ -56,6 +56,7 @@ public class EmailService {
     var receiver = user.getAccount().getVerificationEmail();
     var subject = getVerificationEmailSubject();
     var body = getVerificationEmailBody(user);
+
     mailSender.sendMail(new EmailDTO(receiver, subject, body));
   }
 

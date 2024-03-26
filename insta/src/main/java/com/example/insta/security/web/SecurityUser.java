@@ -36,7 +36,7 @@ public class SecurityUser implements UserDetails {
   public Collection<? extends GrantedAuthority> getAuthorities() {
     //      return List.of(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole()));
 
-    return this.user.getRole().stream()
+    return this.user.getRoles().stream()
         .map(role -> new SimpleGrantedAuthority(ROLE_PREFIX + role))
         .toList();
   }

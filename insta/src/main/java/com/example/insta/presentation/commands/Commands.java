@@ -1,6 +1,11 @@
 package com.example.insta.presentation.commands;
 
-public class Commands {
+// Commands
+// -----------------------------------------------------------------------------
+// Commands are used to represent the input to a use case in the Service layer.
+// e.g. UserRegistrationCommand, UserVerificationCommand
+
+public abstract class Commands {
 
   // --- Registration ---
   //  whiten input = email.trim().toLowerCase();

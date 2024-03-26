@@ -127,7 +127,7 @@ public abstract class AssertUtil {
    */
   public static <C extends Collection<?>> C hasMinSize(C c, int min, String name) {
     Assert.notNull(c, () -> format(hasMinSizeMsg, name, min));
-    Assert.isTrue(!c.isEmpty() && c.size() >= min, () -> format(hasMinSizeMsg, name, min));
+    Assert.isTrue(c.size() >= min, () -> format(hasMinSizeMsg, name, min));
     return c;
   }
 
@@ -141,7 +141,7 @@ public abstract class AssertUtil {
    */
   public static <C extends Collection<?>> C hasMaxSize(C c, int max, String name) {
     Assert.notNull(c, () -> format(hasMaxSizeMsg, name, max));
-    Assert.isTrue(!c.isEmpty() && c.size() <= max, () -> format(hasMaxSizeMsg, name, max));
+    Assert.isTrue(c.size() <= max, () -> format(hasMaxSizeMsg, name, max));
     return c;
   }
 

@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
 // Post is an Aggregate Root.
 // We extend from BaseEntity because it's an own collection in MongoDB.
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Document(collection = "post")
 public class Post extends BaseEntity<String> {
   // Who created this post?

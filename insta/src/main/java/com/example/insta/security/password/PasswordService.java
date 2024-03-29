@@ -86,9 +86,9 @@ public class PasswordService {
   private final PasswordEncoder passwordEncoder;
 
   // constructor injection
-  //  public PasswordService(PasswordEncoder passwordEncoder) {
-  //    this.passwordEncoder = passwordEncoder;
-  //  }
+  //    public PasswordService(PasswordEncoder passwordEncoder) {
+  //      this.passwordEncoder = passwordEncoder;
+  //    }
 
   // setter injection
   //  public void setPasswordEncoder(PasswordEncoder encoder) {

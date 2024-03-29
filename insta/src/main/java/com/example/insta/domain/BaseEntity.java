@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +13,7 @@ import org.springframework.data.annotation.Version;
 // Base class for all domain entities (that are persisted to the as an own collection)
 // Lombok generates getters for all fields
 // https://projectlombok.org/
+@ToString
 @Getter
 public abstract class BaseEntity<PK extends Serializable> {
   @Id protected final PK id;

@@ -26,7 +26,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 // User is an Aggregate Root.
 // We extend from BaseEntity because it's an own collection in MongoDB.
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Document(collection = "user")
 public class User extends BaseEntity<String> {
   // Indexes speed up queries in MongoDB by providing efficient access to data.

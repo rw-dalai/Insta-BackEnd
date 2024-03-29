@@ -51,6 +51,10 @@ dependencies {
 	// Map Struct
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+
+	// Faker
+	implementation("com.github.javafaker:javafaker:1.0.2")
+
 }
 
 tasks.withType<Test> {

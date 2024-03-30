@@ -76,4 +76,32 @@ tasks.named("check") {
 //	enabled = false
 //}
 
+tasks.register("loadFakeData", JavaExec::class) {
+	group = "database"
+	description = "Run the application with fake data"
+	classpath = sourceSets["test"].runtimeClasspath + sourceSets["main"].runtimeClasspath
+	mainClass = "com.example.insta.faker.LoadFakeDataRunner"
+
+	// Provide a default value for dbName if it's not specified as a project property
+	val dbName: String = project.findProperty("dbName") as String? ?: "insta"
+	args("--spring.data.mongodb.database=$dbName")
+}
+
+tasks.register<Exec>("createDump") {
+	group = "database"
+	description = "Creates a dump of the MongoDB database and zips it."
+
+	val dbName: String = project.findProperty("dbName") as String? ?: "insta"
+	commandLine("mongodump", "--db=$dbName", "--archive=./db/db.dump", "--gzip")
+}
+
+tasks.register<Exec>("restoreDump") {
+	group = "database"
+	description = "Restores the MongoDB database from a zipped dump."
+
+	val dbName: String = project.findProperty("dbName") as String? ?: "insta"
+	commandLine("mongorestore", "--db=$dbName", "--archive=./db/db.dump", "--gzip")
+}
+
+
 

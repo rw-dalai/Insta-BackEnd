@@ -17,15 +17,12 @@ public class BaseEntityHelper {
       // Get the field of the BaseEntity
       Field declaredField = clazz.getSuperclass().getDeclaredField(field);
 
-      //            clazz.getDeclaredField(field);
-
       // Set the field to be accessed
       declaredField.setAccessible(true);
 
       // Set the value
       declaredField.set(entity, value);
 
-      // return entity;
     } catch (NoSuchFieldException | IllegalAccessException e) {
       // This should never happen
       throw new RuntimeException(e);

@@ -15,30 +15,26 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FakeDataLoader {
-  private final int FAKED_USERS = 3;
-  private final int FAKED_POST = 10;
-
   private final UserRepository userRepository;
   private final PostRepository postRepository;
 
-  public void loadFakeData() {
+  public void loadFakeData(int numberOfUsers, int numberOfPosts) {
 
-    Map<User, List<Post>> userPostMap = fakeUsersWithPosts(FAKED_USERS, FAKED_POST);
+    Map<User, List<Post>> userPostMap = fakeUsersWithPosts(numberOfUsers, numberOfUsers);
 
     // Returns all users from the map
-    Set<User> users = userPostMap.keySet();
+    Set<User> allUsers = userPostMap.keySet();
 
     // Returns all posts from the map as a collection of lists
     // Collection<List<Post>> posts = userPostMap.values();
 
     // We have to flatten the list of posts into a single list
-    List<Post> flattenedPosts =
-        userPostMap.values().stream()
-            // For each list of posts, stream the list and collect it into a single list
-            .flatMap(posts -> posts.stream())
-            .toList();
+    List<Post> allPosts = userPostMap.values().stream().flatMap(posts -> posts.stream()).toList();
 
-    userRepository.saveAll(users);
-    postRepository.saveAll(flattenedPosts);
+    System.out.println("Users: " + allUsers);
+    System.out.println("Posts: " + allPosts);
+
+    userRepository.saveAll(allUsers);
+    postRepository.saveAll(allPosts);
   }
 }

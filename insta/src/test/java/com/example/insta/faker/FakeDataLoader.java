@@ -20,7 +20,7 @@ public class FakeDataLoader {
 
   public void loadFakeData(int numberOfUsers, int numberOfPosts) {
 
-    Map<User, List<Post>> userPostMap = fakeUsersWithPosts(numberOfUsers, numberOfUsers);
+    Map<User, List<Post>> userPostMap = fakeUsersWithPosts(numberOfUsers, numberOfPosts);
 
     // Returns all users from the map
     Set<User> allUsers = userPostMap.keySet();

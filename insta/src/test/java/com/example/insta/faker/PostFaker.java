@@ -18,7 +18,7 @@ public class PostFaker {
   public static Post createPost(String userId) {
 
     var text = faker.lorem().sentence();
-    List<Media> medias = null;
+    List<Media> medias = MediaFaker.createMedias(3);
     var hashTags = fakeHashTags(NUM_HASH_TAGS);
 
     var post = new Post(userId, text, medias, hashTags);

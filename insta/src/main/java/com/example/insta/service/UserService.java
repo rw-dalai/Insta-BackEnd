@@ -29,6 +29,8 @@ public class UserService {
     List<Post> posts = postRepository.findByUserId(user.getId());
     // List<Messenger> messenger = messengerRepository.findByParticipantId(user.getId());
 
-    return mapper.toLoginView(user, posts);
+    LoginView loginView = mapper.toLoginView(user, posts);
+    LOGGER.debug("User login sucessfull {}", loginView);
+    return loginView;
   }
 }

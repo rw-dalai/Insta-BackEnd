@@ -15,6 +15,11 @@ import java.time.Instant;
  * The binary data of the media is stored in MongoDB GridFS.
  */
 
+// api/media/dog.jpg
+// <img src="/api/media/{id}">
+// <img src="/api/media/dog.jpg">
+// <img src="/api/media/uuidv4">
+
 // This class in inlined in Post or Message.
 public record Media(
     String id,

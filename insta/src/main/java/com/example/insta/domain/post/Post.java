@@ -57,6 +57,8 @@ public class Post extends BaseEntity<String> {
   // Constructor for Spring Data to use when creating a new user from DB into memory.
   // Spring Data uses reflection to create an instance of this class.
   // https://www.youtube.com/watch?v=bhhMJSKNCQY
+  //  @PersistenceCreator
+  //  @JsonCreator
   protected Post(String id) {
     super(id);
   }

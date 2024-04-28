@@ -118,7 +118,7 @@ tasks.named("check") {
 //}
 
 
-tasks.register<JavaExec>("loadFakeData") {
+tasks.register<JavaExec>("seedDBWithFakeData") {
 	group = "database"
 	description = "Run the application with fake data"
 	classpath = sourceSets["test"].runtimeClasspath + sourceSets["main"].runtimeClasspath
@@ -129,7 +129,7 @@ tasks.register<JavaExec>("loadFakeData") {
 	args("--spring.data.mongodb.database=$dbName")
 }
 
-tasks.register<Exec>("createDump") {
+tasks.register<Exec>("createDBDump") {
 	group = "database"
 	description = "Creates a dump of the MongoDB database and zips it."
 
@@ -137,7 +137,7 @@ tasks.register<Exec>("createDump") {
 	commandLine("mongodump", "--db=$dbName", "--archive=./db/db.dump", "--gzip")
 }
 
-tasks.register<Exec>("restoreDump") {
+tasks.register<Exec>("restoreDBDump") {
 	group = "database"
 	description = "Restores the MongoDB database from a zipped dump."
 

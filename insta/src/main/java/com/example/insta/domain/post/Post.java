@@ -6,11 +6,12 @@ import static org.springframework.util.Assert.isTrue;
 
 import com.example.insta.domain.BaseEntity;
 import com.example.insta.domain.media.Media;
-import java.util.HashSet;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.List;
 import java.util.Set;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.Nullable;
@@ -57,15 +58,19 @@ public class Post extends BaseEntity<String> {
   // Constructor for Spring Data to use when creating a new user from DB into memory.
   // Spring Data uses reflection to create an instance of this class.
   // https://www.youtube.com/watch?v=bhhMJSKNCQY
-  //  @PersistenceCreator
-  //  @JsonCreator
+  @PersistenceCreator
+  @JsonCreator
   protected Post(String id) {
     super(id);
   }
 
   // Constructor for us developers to use when creating a new user in memory.
   public Post(
-      String userId, @Nullable String text, @Nullable List<Media> medias, Set<HashTag> hashTags) {
+      String userId,
+      @Nullable String text,
+      @Nullable List<Media> medias,
+      Set<HashTag> hashTags,
+      Set<Like> likes) {
     super(generateUUIDv4());
 
     isTrue(text != null || medias != null, "text or medias must not be null");
@@ -73,6 +78,6 @@ public class Post extends BaseEntity<String> {
     this.text = hasMaxTextOrNull(text, 4096, "text");
     this.medias = hasMaxSizeOrNull(medias, 10, "medias");
     this.hashTags = hasMaxSize(hashTags, 10, "hashTags");
-    this.likes = new HashSet<>();
+    this.likes = likes;
   }
 }

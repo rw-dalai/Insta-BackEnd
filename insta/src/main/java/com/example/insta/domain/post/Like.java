@@ -11,6 +11,10 @@ import java.util.Objects;
 // This class in inlined in Post or Comment.
 public record Like(String userId, Instant createdAt) {
 
+  public Like(String userId) {
+    this(userId, Instant.now());
+  }
+
   // Likes are equal if they have the same user Id.
   @Override
   public boolean equals(Object o) {

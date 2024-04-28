@@ -55,6 +55,7 @@ public class MediaController {
           // Content Type is image/jpeg, image/png, video/mp4, etc.
           // Its important so that the browser knows how to display the content.
           .contentType(MediaType.parseMediaType(mimeType))
+          //          .contentType(MediaType.APPLICATION_JSON)
 
           // Send the resource as the response body to the client
           // Since we set the content type to a media type spring will not try to convert the

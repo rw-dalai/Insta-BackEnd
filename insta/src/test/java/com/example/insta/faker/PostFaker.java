@@ -1,7 +1,10 @@
 package com.example.insta.faker;
 
+import static com.example.insta.foundation.EntityUtil.generateUUIDv4;
+
 import com.example.insta.domain.media.Media;
 import com.example.insta.domain.post.HashTag;
+import com.example.insta.domain.post.Like;
 import com.example.insta.domain.post.Post;
 import com.github.javafaker.Faker;
 import java.util.List;
@@ -17,11 +20,11 @@ public class PostFaker {
 
   public static Post createPost(String userId) {
 
-    var text = faker.lorem().sentence();
+    var text = faker.lorem().paragraph(faker.random().nextInt(3, 10));
     List<Media> medias = MediaFaker.createMedias(3);
-    var hashTags = fakeHashTags(NUM_HASH_TAGS);
-
-    var post = new Post(userId, text, medias, hashTags);
+    var hashTags = fakeHashTags(faker.random().nextInt(1, 5));
+    var likes = fakeLikes(faker.random().nextInt(1, 5));
+    var post = new Post(userId, text, medias, hashTags, likes);
 
     // setBaseEntityField(user, "createdAt", Instant.now());
     // setBaseEntityField(user, "lastModifiedAt", Instant.now());
@@ -34,6 +37,10 @@ public class PostFaker {
     return Stream.generate(() -> new HashTag(faker.lorem().word()))
         .limit(n)
         .collect(Collectors.toSet());
+  }
+
+  private static Set<Like> fakeLikes(int n) {
+    return Stream.generate(() -> new Like(generateUUIDv4())).limit(n).collect(Collectors.toSet());
   }
 
   public static List<Post> createPosts(String userId, int n) {

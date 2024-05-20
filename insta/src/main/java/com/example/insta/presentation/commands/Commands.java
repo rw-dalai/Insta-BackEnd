@@ -5,6 +5,8 @@ package com.example.insta.presentation.commands;
 // Commands are used to represent the input to a use case in the Service layer.
 // e.g. UserRegistrationCommand, UserVerificationCommand
 
+import java.util.Arrays;
+
 public abstract class Commands {
 
   // --- Registration ---
@@ -18,4 +20,24 @@ public abstract class Commands {
 
   // --- Verification ---
   public record UserVerificationCommand(String userId, String tokenId) {}
+
+  public record SendPostCommand(String message, MediaMetaCommand[] mediasMeta) {
+    @Override
+    public String toString() {
+      return "SendPostCommand{"
+          + "message='"
+          + message
+          + '\''
+          + ", mediasMeta="
+          + Arrays.toString(mediasMeta)
+          + '}';
+    }
+  }
+
+  //  public record UploadAvatarCommand(
+  //      MediaMetaCommand avatarMeta
+  //  ) { }
+
+  public record MediaMetaCommand(
+      String filename, String mimeType, long size, int width, int height) {}
 }

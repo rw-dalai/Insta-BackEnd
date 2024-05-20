@@ -14,7 +14,7 @@ import lombok.Getter;
 @Getter
 public class Profile {
 
-  // private Address address;
+  //   private Address address;
 
   private String firstName;
   private String lastName;

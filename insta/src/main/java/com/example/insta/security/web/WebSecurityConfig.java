@@ -1,5 +1,6 @@
 package com.example.insta.security.web;
 
+import com.example.insta.domain.user.Role;
 import com.example.insta.persistence.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -118,8 +119,8 @@ public class WebSecurityConfig {
             authorize
                 .requestMatchers("/api/registration/**")
                 .permitAll()
-                //                .requestMatchers("/api/user/**")
-                //                .hasRole(Role.USER.toString())
+                .requestMatchers("/api/user/**")
+                .hasRole(Role.USER.toString())
                 .anyRequest()
                 .authenticated());
 

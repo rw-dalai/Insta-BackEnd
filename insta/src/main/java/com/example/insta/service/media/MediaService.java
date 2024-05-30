@@ -51,9 +51,7 @@ public class MediaService {
 
   // Save Medias -------------------------------------------------------------
 
-  // Saves all media binaries in MongoDB GridFS
   public List<Media> saveMedias(MultipartFile[] mediaFiles, MediaMetaCommand[] mediaMetas) {
-    // We need to rollback all medias in case of an exception
     List<Media> medias = new ArrayList<>(mediaFiles.length);
 
     try {
@@ -71,14 +69,13 @@ public class MediaService {
       return medias;
 
     } catch (Exception e) {
-      // Rollback all medias in MongoDB GridFS
       LOGGER.error("Could not save all {} medias", medias.size());
+      // Rollback all medias in case of an exception
       rollback(medias);
       throw e;
     }
   }
 
-  // Saves a single media binary and its metadata in MongoDB GridFS
   public Media saveMedia(MultipartFile mediaFile, MediaMetaCommand mediaMeta) {
     try {
       // Frontend must send the same filename in mediaMeta and mediaFile
@@ -88,13 +85,12 @@ public class MediaService {
 
       LOGGER.info("Saving media: {} with size {}", mediaMeta.filename(), mediaMeta.size());
 
-      // Stores the media binary in MongoDB GridFS (into fs.chunks and fs.files)
-      // -> fs.files contains metadata such as filename and mimetype
-      // -> fs.chunks contains the actual binary data
+      // Stores the media in fs.files (metadata) and fs.chunks(binary) collections.
       ObjectId mediaId =
           gridFsTemplate.store(
               mediaFile.getInputStream(), mediaMeta.filename(), mediaMeta.mimeType());
 
+      // Maps the MediaMetaCommand to a Media
       return mapper.toMedia(mediaMeta, mediaId);
 
     } catch (Exception e) {
@@ -109,7 +105,7 @@ public class MediaService {
     try {
       LOGGER.info("Downloading media: {}", mediaId);
 
-      // Gets the GridFSFile from fs.files (metadata
+      // Gets the GridFSFile from fs.files (metadata)
       GridFSFile file = gridFsTemplate.findOne(query(where("_id").is(mediaId)));
 
       // Gets the GridFsResource from fs.chunks (binary data)
@@ -158,7 +154,7 @@ public class MediaService {
   // Transaction Helper ------------------------------------------------------
 
   // This is a helper method to execute a transaction with a list of medias.
-  // e.g. save a product along with its medias in a single transaction.
+  // e.g. save a post along with its medias in a single transaction.
   public <T> T saveMediasTransactional(
       MultipartFile[] mediaFiles,
       MediaMetaCommand[] mediaMetas,
@@ -168,6 +164,7 @@ public class MediaService {
       medias = saveMedias(mediaFiles, mediaMetas);
       return transaction.apply(medias);
     } catch (Exception e) {
+      // Only rollback the medias if `transaction.apply(medias);` fails
       if (medias != null) rollback(medias);
       throw new MediaServiceException("Media Transaction failed", e);
     }
@@ -182,6 +179,7 @@ public class MediaService {
       media = saveMedia(mediaFiles, mediaMetas);
       return transaction.apply(media);
     } catch (Exception e) {
+      // Only rollback the medias if `transaction.apply(media);` fails
       if (media != null) rollback(List.of(media));
       throw new MediaServiceException("Media Transaction failed", e);
     }

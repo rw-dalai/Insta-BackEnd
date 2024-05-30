@@ -26,7 +26,7 @@ public class PostService {
   private final PostViewMapper mapper = PostViewMapper.INSTANCE;
 
   public Views.PostView sendPost(User user, SendPostCommand command, MultipartFile[] mediasFile) {
-    LOGGER.debug("User {} send post {}", user, command);
+    LOGGER.debug("User {} send post {}", user.getEmail(), command);
 
     // 1. Save all Medias in GridFS, in case of an error roll back (delete) any saved media so far.
     return mediaService.saveMediasTransactional(
@@ -37,7 +37,7 @@ public class PostService {
           Post post = createPost(user, command, medias);
           var savedPost = postRepository.save(post);
           // 3. Return post view
-          LOGGER.info("User {} send post {} successfully", user, command);
+          LOGGER.info("User {} send post {} successfully", user.getEmail(), command);
           return mapper.toPostView(savedPost);
         });
   }

@@ -84,6 +84,7 @@ public class MediaController {
     Resource resource = result.getFirst();
     String mimeType = result.getSecond();
 
+    // STATUS CODE: 200 OK
     return ResponseEntity.ok()
         // CONTENT LENGTH: Not needed, Spring will set the content length automatically.
         // .contentLength(resource.contentLength())
@@ -95,15 +96,12 @@ public class MediaController {
         .cacheControl(CacheControl.maxAge(365, TimeUnit.DAYS).cachePublic().immutable())
         .body(resource);
 
-    /**
-     * Freshness: Defined by max-age. A resource is fresh if requested within this period.
-     * Staleness: After max-age, the resource becomes stale (outdated).
-     */
+    // CACHE INFO:
+    // Freshness: Defined by max-age. A resource is fresh if requested within this period.
+    // Staleness: After max-age, the resource becomes stale (outdated).
 
-    /**
-     * max-age: Specifies how long the resource is considered fresh. public: Allows the resource to
-     * be cached by both private and shared caches. immutable: Indicates that the resource will not
-     * change, so the browser does not need to revalidate it even after it becomes stale.
-     */
+    // max-age: Specifies how long the resource is considered fresh.
+    // public: Allows the resource to be cached by both private and shared caches.
+    // immutable: Indicates that the resource will not change.
   }
 }

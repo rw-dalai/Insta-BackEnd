@@ -5,6 +5,7 @@ import com.github.javafaker.Faker;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Stream;
+import org.bson.types.ObjectId;
 
 public class MediaFaker {
 
@@ -22,7 +23,7 @@ public class MediaFaker {
     int width = faker.number().numberBetween(640, 1920);
     int height = faker.number().numberBetween(480, 1080);
 
-    return new Media(id, createdAt, filename, mimeTye, size, width, height);
+    return new Media(new ObjectId(id), createdAt, filename, mimeTye, size, width, height);
   }
 
   public static List<Media> createMedias(int n) {

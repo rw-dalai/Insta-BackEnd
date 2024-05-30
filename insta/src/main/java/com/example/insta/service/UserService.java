@@ -30,7 +30,7 @@ public class UserService {
     // List<Messenger> messenger = messengerRepository.findByParticipantId(user.getId());
 
     LoginView loginView = mapper.toLoginView(user, posts);
-    LOGGER.debug("User login sucessfull {}", loginView);
+    LOGGER.info("User login sucessfull {}", loginView);
     return loginView;
   }
 }

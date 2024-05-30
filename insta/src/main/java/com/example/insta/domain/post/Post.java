@@ -9,6 +9,7 @@ import com.example.insta.domain.media.Media;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.List;
 import java.util.Set;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.PersistenceCreator;
@@ -65,6 +66,7 @@ public class Post extends BaseEntity<String> {
   }
 
   // Constructor for us developers to use when creating a new user in memory.
+  @Builder
   public Post(
       String userId,
       @Nullable String text,

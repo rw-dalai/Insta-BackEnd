@@ -35,6 +35,7 @@ public class PostController {
       @AuthenticationPrincipal SecurityUser principal,
       @RequestPart(name = "command") SendPostCommand command,
       @RequestPart(name = "medias", required = false) @Nullable MultipartFile[] medias) {
+
     this.postService.sendPost(principal.getUser(), command, getNonNullMultiPart(medias));
   }
 }

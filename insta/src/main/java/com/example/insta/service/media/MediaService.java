@@ -70,7 +70,6 @@ public class MediaService {
 
     } catch (Exception e) {
       LOGGER.error("Could not save all {} medias", medias.size());
-      // Rollback all medias in case of an exception
       rollback(medias);
       throw e;
     }
@@ -98,10 +97,10 @@ public class MediaService {
     }
   }
 
-  // Download Media ----------------------------------------------------------
+  // Retrieve Media ----------------------------------------------------------
 
   // This method returns a Pair containing both the Resource and the mime type of the media.
-  public Pair<Resource, String> downloadMedia(ObjectId mediaId) {
+  public Pair<Resource, String> retrieveMedia(ObjectId mediaId) {
     try {
       LOGGER.info("Downloading media: {}", mediaId);
 

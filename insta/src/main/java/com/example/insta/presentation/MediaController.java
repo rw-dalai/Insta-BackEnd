@@ -79,7 +79,7 @@ public class MediaController {
 
   @GetMapping("/{mediaId}")
   public ResponseEntity<Resource> downloadMedia(@PathVariable ObjectId mediaId) {
-    var result = mediaService.downloadMedia(mediaId);
+    var result = mediaService.retrieveMedia(mediaId);
 
     Resource resource = result.getFirst();
     String mimeType = result.getSecond();

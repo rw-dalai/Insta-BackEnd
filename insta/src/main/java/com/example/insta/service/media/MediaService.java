@@ -166,7 +166,7 @@ public class MediaService {
 
   // This is a helper method to execute a transaction with a list of medias.
   // e.g. save a product along with its medias in a single transaction.
-  public <T> T saveMediasWithTransaction(
+  public <T> T saveMediasTransactional(
       MultipartFile[] mediaFiles,
       MediaMetaCommand[] mediaMetas,
       Function<List<Media>, T> transaction) {
@@ -182,7 +182,7 @@ public class MediaService {
 
   // This is a helper method to execute a transaction with a single media.
   // e.g. save a user along with its profile picture in a single transaction.
-  public <T> T saveMediaWithTransaction(
+  public <T> T saveMediaTransactional(
       MultipartFile mediaFiles, MediaMetaCommand mediaMetas, Function<Media, T> transaction) {
     Media media = null;
     try {

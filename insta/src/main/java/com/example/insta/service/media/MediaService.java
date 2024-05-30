@@ -12,16 +12,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 // What is GridFS?
@@ -52,7 +51,7 @@ public class MediaService {
 
   // Save Medias -------------------------------------------------------------
 
-  // Saves all media binaries and their metadata in MongoDB GridFS
+  // Saves all media binaries in MongoDB GridFS
   public List<Media> saveMedias(MultipartFile[] mediaFiles, MediaMetaCommand[] mediaMetas) {
     // We need to rollback all medias in case of an exception
     List<Media> medias = new ArrayList<>(mediaFiles.length);
@@ -65,9 +64,9 @@ public class MediaService {
 
       LOGGER.info("Saving {} medias", mediaFiles.length);
 
-      // for (int i = 0; i < mediaFiles.length; i++ ) { ... }
-      IntStream.range(0, mediaFiles.length)
-          .forEach((i) -> medias.add(saveMedia(mediaFiles[i], mediaMetas[i])));
+      for (int i = 0; i < mediaFiles.length; i++) {
+        medias.add(saveMedia(mediaFiles[i], mediaMetas[i]));
+      }
 
       return medias;
 
@@ -89,7 +88,9 @@ public class MediaService {
 
       LOGGER.info("Saving media: {} with size {}", mediaMeta.filename(), mediaMeta.size());
 
-      // Store the media binary in MongoDB GridFS including MIME type
+      // Stores the media binary in MongoDB GridFS (into fs.chunks and fs.files)
+      // -> fs.files contains metadata such as filename and mimetype
+      // -> fs.chunks contains the actual binary data
       ObjectId mediaId =
           gridFsTemplate.store(
               mediaFile.getInputStream(), mediaMeta.filename(), mediaMeta.mimeType());
@@ -103,15 +104,20 @@ public class MediaService {
 
   // Download Media ----------------------------------------------------------
 
-  // This method now returns a Pair object containing both the Resource and the MIME type
+  // This method returns a Pair containing both the Resource and the mime type of the media.
   public Pair<Resource, String> downloadMedia(ObjectId mediaId) {
     try {
       LOGGER.info("Downloading media: {}", mediaId);
 
-      GridFSFile file = getGridFsFile(mediaId);
-      String mimeType = getMimeType(file);
+      // Gets the GridFSFile from fs.files (metadata
+      GridFSFile file = gridFsTemplate.findOne(query(where("_id").is(mediaId)));
 
-      return Pair.of(gridFsTemplate.getResource(file), mimeType);
+      // Gets the GridFsResource from fs.chunks (binary data)
+      GridFsResource resource = gridFsTemplate.getResource(file);
+
+      // Returning a Pair of Resource and MimeType is useful for the controller
+      // to set the content type
+      return Pair.of(resource, getMimeType(file));
 
     } catch (Exception e) {
       throw new MediaServiceException("Failed to download media", e);
@@ -139,26 +145,13 @@ public class MediaService {
   }
 
   // Deletes a single media from MongoDB GridFS
-  public void deleteMedia(ObjectId mediaId) {
+  public void deleteMediaById(ObjectId mediaId) {
     try {
       LOGGER.info("Deleting media: {}", mediaId);
       gridFsTemplate.delete(query(where("_id").is(mediaId)));
 
     } catch (Exception e) {
       throw new MediaServiceException("Failed to delete media", e);
-    }
-  }
-
-  // Get GridFs File ---------------------------------------------------------
-
-  // Returns a single GridFSFile from MongoDB associated with the mediaId
-  public GridFSFile getGridFsFile(ObjectId mediaId) {
-    try {
-      GridFSFile file = gridFsTemplate.findOne(query(where("_id").is(mediaId)));
-      Assert.notNull(file, () -> "Media not found: " + mediaId);
-      return file;
-    } catch (Exception e) {
-      throw new MediaServiceException("Failed to get GridFsFile", e);
     }
   }
 

@@ -46,8 +46,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class MediaService {
   private final Logger LOGGER = LoggerFactory.getLogger(MediaService.class);
-  private final GridFsTemplate gridFsTemplate;
   private static final MediaMetaCommandMapper mapper = MediaMetaCommandMapper.INSTANCE;
+
+  // Spring's gateway to the MongoDB GridFS
+  private final GridFsTemplate gridFsTemplate;
 
   // Save Medias -------------------------------------------------------------
 
